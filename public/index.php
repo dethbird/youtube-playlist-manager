@@ -68,6 +68,28 @@ $app->get('/', function ($request, $response){
     );
 
 });
+# post form
+$app->post('/', function ($request, $response){
+    $configs = $this['configs'];
+    $view = $this['view'];
+    $securityContext = isset($_SESSION['securityContext']) ? $_SESSION['securityContext'] : null;
+
+    $params = $request->getParsedBody();
+
+    var_dump($params); die();
+
+    $templateVars = [
+        "configs" => $configs,
+        'securityContext' => $securityContext
+    ];
+
+    return $this['view']->render(
+        $response,
+        'pages/index.html.twig',
+        $templateVars
+    );
+
+});
 
 
 // # logout
