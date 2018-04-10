@@ -9,7 +9,9 @@ php composer.phar install
 
 #### Permissions
 ```bash
+
 chmod 755 ../youtube-playlist-manager
 chmod 755 public
 chmod 644 public/index.php public/.htaccess
+
 ```

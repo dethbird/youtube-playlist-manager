@@ -10,6 +10,7 @@ session_start();
 if (!isset($_SESSION['securityContext'])) {
     $_SESSION['securityContext'] = null;
 }
+$_SESSION['lastRequestUri'] = $_SERVER['REQUEST_URI'];
 
 set_include_path(implode(PATH_SEPARATOR, array(
     APPLICATION_PATH ,
@@ -50,15 +51,27 @@ $container['view'] = function ($container) {
     return $view;
 };
 
+# container notFoundHandler
+$container['notFoundHandler'] = function ($c) {
+    return function ($request, $response) use ($c) {
+        $_SESSION['lastRequestUri'] = $_SERVER['REQUEST_URI'];
+        return $c['response']
+            ->withStatus(302)
+            ->withHeader('Location', '/');
+    };
+};
+
 # index
 $app->get('/', function ($request, $response){
     $configs = $this['configs'];
     $view = $this['view'];
     $securityContext = isset($_SESSION['securityContext']) ? $_SESSION['securityContext'] : null;
+    $lastRequestUri = isset($_SESSION['lastRequestUri']) ? $_SESSION['lastRequestUri'] : null;
 
     $templateVars = [
         "configs" => $configs,
-        'securityContext' => $securityContext
+        'securityContext' => $securityContext,
+        'lastRequestUri' => $lastRequestUri
     ];
 
     return $this['view']->render(
