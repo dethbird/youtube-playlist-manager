@@ -13,10 +13,11 @@ class GoogleClient {
         $this->client = new Google_Client();
         $this->client->setApplicationName($applicationName);
         $this->client->setAuthConfigFile($authConfigFile);
-        $this->client->addScope(Google_Service_Drive::DRIVE);
-        $this->client->addScope(Google_Service_YouTube::YOUTUBE);
-        $this->client->addScope(Google_Service_YouTube::YOUTUBE_READONLY);
-        $this->client->setAccessType('offline');
+        // $this->client->addScope(Google_Service_Drive::DRIVE);
+        $this->client->addScope('https://www.googleapis.com/auth/userinfo.profile');
+        $this->client->addScope('https://www.googleapis.com/auth/youtube.force-ssl');
+        // $this->client->addScope(Google_Service_YouTube::YOUTUBE_READONLY);
+        // $this->client->setAccessType('offline');
         $this->client->setApprovalPrompt('force');
     }
 
@@ -202,6 +203,16 @@ class GoogleClient {
             $folder = $this->getFileFolder($folder, $file);
         }
         return $folder;
+    }
+
+
+    /** PEOPLE */
+    public function getUserBasicProfile()
+    {
+        $plus_service = new Google_Service_Plus($this->client);
+        $user =$people_service->people->get(
+            'people/me');
+        return $user->toSimpleObject();
     }
 
     /** YOUTUBE **/

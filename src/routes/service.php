@@ -22,16 +22,27 @@ $app->group('/service', function(){
 
             $accessTokenData = $googleData->getAccessToken(
                 $request->getQueryParam('code'));
-            $model = UserGoogle::find_by_user_id($_SESSION['securityContext']->id);
 
-            if (!$model) {
-                $model = new UserGoogle();
-                $model->user_id = $_SESSION['securityContext']->id;
-            }
 
-            $model->access_token = json_encode($accessTokenData);
-            $model->refresh_token = $accessTokenData['refresh_token'];
-            $model->save();
+            // var_export($accessTokenData); die();
+
+            $googleData->setAccessToken(json_encode($accessTokenData));
+
+            // $user = $googleData->getUserBasicProfile();
+
+
+            // $model = UserGoogle::find_by_user_id($_SESSION['securityContext']->id);
+
+            // if (!$model) {
+            //     $model = new UserGoogle();
+            //     $model->user_id = $_SESSION['securityContext']->id;
+            // }
+
+            // $model->access_token = json_encode($accessTokenData);
+            // $model->refresh_token = $accessTokenData['refresh_token'];
+            // $model->save();
+
+            // var_export($user); die();
 
             return $response
                     ->withStatus(302)
