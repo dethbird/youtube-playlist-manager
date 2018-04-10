@@ -1,5 +1,5 @@
-# fb-authenticator
-Enter your Facebook appId and appSecret to generate a user authToken
+# Youtube Playlist Manager
+A better way to manage your youtube playlist
 
 #### Composer install
 ```bash
@@ -9,6 +9,7 @@ php composer.phar install
 
 #### Permissions
 ```bash
-chmod 755 ../fb-authenticator
+chmod 755 ../youtube-playlist-manager
+chmod 755 public
 chmod 644 public/index.php public/.htaccess
 ```

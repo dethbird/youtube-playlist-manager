@@ -5,21 +5,14 @@
 {% endblock %}
 {% block content %}
     {{ parent() }}
-    <div class="ui container text">
-        <form class="ui form" method='post' action='/'>
-            <div class="field">
-                <label>App Id</label>
-                <input type="text" name="appId" placeholder="App Id">
-            </div>
-            <div class="field">
-                <label>App Secret</label>
-                <input type="text" name="appSecret" placeholder="App Secret">
-            </div>
-            <button class="ui button" type="submit">Submit</button>
-        </form>
-    </div>
+    <div id="mount"></div>
 {% endblock %}
 
 
 {% block includes %}
+<script type="text/javascript">
+    var lastRequestUri = "{{lastRequestUri}}";
+    var securityContext = {{securityContext|json_encode|raw}};
+</script>
+<script type="text/javascript" src="/js/pages/index.js"></script>
 {% endblock %}
