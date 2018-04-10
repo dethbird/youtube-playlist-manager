@@ -1,0 +1,3 @@
+service:
+    google:
+        google_app_credentials_json: configs/google_client.json

@@ -21,6 +21,7 @@ set_include_path(implode(PATH_SEPARATOR, array(
 
 require '../vendor/autoload.php';
 // require_once APPLICATION_PATH . 'src/library/Connector/Facebook.php';
+use Symfony\Component\Yaml\Yaml;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 use Guzzle\Http\Client;
@@ -32,7 +33,7 @@ $app = new \Slim\App([
         'displayErrorDetails' => true
     ]
 ]);
-$configs = [];
+$configs = Yaml::parse(file_get_contents("../configs/configs.yml"));
 $container = $app->getContainer();
 
 # container configs
@@ -60,6 +61,9 @@ $container['notFoundHandler'] = function ($c) {
             ->withHeader('Location', '/');
     };
 };
+
+
+require_once APPLICATION_PATH . 'src/routes/service.php';
 
 # index
 $app->get('/', function ($request, $response){

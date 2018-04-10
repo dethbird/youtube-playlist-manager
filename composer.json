@@ -2,6 +2,9 @@
     "require": {
         "slim/slim": "^3.9",
         "slim/twig-view": "^2.3",
-        "guzzlehttp/guzzle": "^6.3"
+        "guzzlehttp/guzzle": "^6.3",
+        "mead-steve/console": "^3.0",
+        "josegonzalez/dotenv": "^3.2",
+        "symfony/yaml": "^3.4"
     }
 }
