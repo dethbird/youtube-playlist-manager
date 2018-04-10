@@ -1,0 +1,1 @@
+export { default as youtubePlaylistsReducer } from 'reducers/youtube-playlists';
