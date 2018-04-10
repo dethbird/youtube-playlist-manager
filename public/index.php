@@ -112,6 +112,7 @@ $app->post('/', function ($request, $response){
 // # logout
 $app->get("/logout",  function ($request, $response) {
     $_SESSION['securityContext'] = null;
+    $_SESSION['authToken'] = null;
     return $response
         ->withStatus(302)
         ->withHeader('Location', '/');

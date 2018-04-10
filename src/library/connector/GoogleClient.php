@@ -56,7 +56,7 @@ class GoogleClient {
      */
     public function setAccessToken($accessToken)
     {
-        $this->client->setAccessToken(json_decode($accessToken, true));
+        $this->client->setAccessToken($accessToken);
     }
 
     /**
@@ -209,10 +209,9 @@ class GoogleClient {
     /** PEOPLE */
     public function getUserBasicProfile()
     {
-        $plus_service = new Google_Service_Plus($this->client);
-        $user =$people_service->people->get(
-            'people/me');
-        return $user->toSimpleObject();
+        $httpClient = $this->client->authorize();
+        $response = $httpClient->get('https://www.googleapis.com/plus/v1/people/me');
+        return json_decode($response->getBody()->getContents());
     }
 
     /** YOUTUBE **/
