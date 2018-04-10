@@ -20,7 +20,7 @@ set_include_path(implode(PATH_SEPARATOR, array(
 
 
 require '../vendor/autoload.php';
-// require_once APPLICATION_PATH . 'src/library/Connector/Facebook.php';
+require_once APPLICATION_PATH . 'src/library/connector/GoogleClient.php';
 use Symfony\Component\Yaml\Yaml;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;

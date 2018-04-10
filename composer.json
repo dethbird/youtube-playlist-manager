@@ -5,6 +5,7 @@
         "guzzlehttp/guzzle": "^6.3",
         "mead-steve/console": "^3.0",
         "josegonzalez/dotenv": "^3.2",
-        "symfony/yaml": "^3.4"
+        "symfony/yaml": "^3.4",
+        "google/apiclient": "^2.2"
     }
 }

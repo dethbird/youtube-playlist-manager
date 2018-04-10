@@ -6,7 +6,7 @@ $app->group('/service', function(){
     $this->group('/google', function(){
 
         $this->get('/authorize', function($request, $response, $args){
-             $googleData = new GoogleData(
+             $googleData = new GoogleClient(
                  $this->configs['application']['name'],
                 APPLICATION_PATH . $this->configs['service']['google']['google_app_credentials_json']);
 
@@ -16,7 +16,7 @@ $app->group('/service', function(){
         });
 
         $this->get('/redirect', function($request, $response, $args){
-            $googleData = new GoogleData(
+            $googleData = new GoogleClient(
                  $this->configs['application']['name'],
                 APPLICATION_PATH . $this->configs['service']['google']['google_app_credentials_json']);
 
@@ -41,7 +41,7 @@ $app->group('/service', function(){
 
         $this->get('/drive_recent', function($request, $response, $args){
             global $googleData;
-            $googleData = new GoogleData(
+            $googleData = new GoogleClient(
                  $this->configs['application']['name'],
                 APPLICATION_PATH . $this->configs['service']['google']['google_app_credentials_json']);
             $userGoogle = UserGoogle::find_by_user_id($_SESSION['securityContext']->id);
@@ -72,7 +72,7 @@ $app->group('/service', function(){
         });
 
         $this->get('/drive_file/{id}', function($request, $response, $args){
-            $googleData = new GoogleData(
+            $googleData = new GoogleClient(
                  $this->configs['application']['name'],
                 APPLICATION_PATH . $this->configs['service']['google']['google_app_credentials_json']);
             $userGoogle = UserGoogle::find_by_user_id($_SESSION['securityContext']->id);
