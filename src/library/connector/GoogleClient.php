@@ -227,6 +227,42 @@ class GoogleClient {
         return $data;
     }
 
+    public function getYoutubePlaylists()
+    {
+
+        $httpClient = $this->client->authorize();
+        $response = $httpClient->get('https://www.googleapis.com//youtube/v3/playlists', [
+            'query' => [
+                'part' => 'id,snippet,contentDetails',
+                'mine' => 'true',
+                'maxResults' => 50
+            ]
+        ]);
+        $data = json_decode($response->getBody()->getContents());
+        $totalResults = $data->pageInfo->totalResults;
+        $nextPageToken = $data->nextPageToken;
+        $items = $data->items;
+        while (count($items) < $totalResults) {
+            $response = $httpClient->get('https://www.googleapis.com//youtube/v3/playlists', [
+                'query' => [
+                    'part' => 'id,snippet,contentDetails',
+                    'mine' => 'true',
+                    'maxResults' => 50,
+                    'pageToken' => $nextPageToken
+                ]
+            ]);
+            $data = json_decode($response->getBody()->getContents());
+            $items = array_merge($items, $data->items);
+            if (isset($data->nextPageToken)) {
+                $nextPageToken = $data->nextPageToken;
+            } else {
+                $nextPageToken = null;
+            }
+        }
+
+        return $items;
+    }
+
     public function getYoutubePlaylistItems($part, $options)
     {
         $youtube_service = new Google_Service_YouTube($this->client);

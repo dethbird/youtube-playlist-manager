@@ -41,8 +41,7 @@ $app->group('/service', function(){
                 APPLICATION_PATH . $this->configs['service']['google']['google_app_credentials_json']);
             $googleData->setAccessToken($_SESSION['authToken']);
 
-            // $file = $googleData->getFile($args['id']);
-            $playlists = [1,2,3,4];
+            $playlists = $googleData->getYoutubePlaylists();
             return $response
                 ->withJson($playlists);
 

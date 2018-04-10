@@ -18,7 +18,7 @@ class YoutubePlaylists extends React.Component {
         const { models } = this.props;
         const nodes = models ? models.map(function(playlist, i){
             return (
-                <div key={ i }>{ playlist }</div>
+                <div key={ i }>{ playlist.snippet.title }</div>
             );
         }) : <Loader active />;
         return <div>{ nodes }</div>
