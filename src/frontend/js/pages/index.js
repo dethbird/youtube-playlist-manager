@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 // import { Provider } from 'react-redux';
 
-// import App from 'components/app';
+import AppLayout from 'components/app-layout';
 // import store from 'store/store';
 
 // External
@@ -38,7 +38,7 @@ const Topic = ({ match }) => (
 
 render((
     <Router>
-        <div>
+        <AppLayout>
             <ul>
                 <li><Link to="/">Home</Link></li>
                 <li><Link to="/about">About</Link></li>
@@ -50,6 +50,6 @@ render((
             <Route exact path="/" component={Home} />
             <Route path="/about" component={About} />
             <Route path="/topic/:topicId" component={Topic} />
-        </div>
+        </AppLayout>
     </Router>
 ), document.getElementById('mount'));
