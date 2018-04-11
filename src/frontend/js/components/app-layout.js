@@ -20,7 +20,7 @@ class AppLayout extends React.Component {
         }
         return (
             <div>
-                <Segment padded basic>
+                <Segment basic>
                     <Grid>
                         <Grid.Column width={ 12 } textAlign='left'>
                             <Image src={ securityContext.image.url } avatar />
@@ -31,7 +31,7 @@ class AppLayout extends React.Component {
                         </Grid.Column>
                     </Grid>
                 </Segment>
-                <Segment textAlign='left' padded basic>
+                <Segment textAlign='left' basic>
                     { children }
                 </Segment>
             </div>

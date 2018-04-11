@@ -36,6 +36,13 @@ export const youtubePlaylistsGet = () =>
             });
     };
 
+export const youtubePlaylistsOrder = (orderBy) => {
+    return {
+        type: YOUTUBE_PLAYLISTS.ORDER_BY,
+        orderBy
+    }
+}
+
 export const driveReset = () => {
     return {
         type: YOUTUBE_PLAYLISTS.RESET
