@@ -1,4 +1,7 @@
 import React from 'react';
+import {
+    Link
+} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
@@ -13,7 +16,7 @@ class YoutubePlaylistCard extends React.Component {
     render() {
         const { playlist } = this.props;
         return (
-            <Card>
+            <Card onClick={ () => { window.open(`https://www.youtube.com/playlist?list=${playlist.id}&disable_polymer=true`, "_blank") } }>
                 <Image src={ playlist.snippet.thumbnails.high.url } />
                 <Label content={ playlist.contentDetails.itemCount } size='mini' attached='top right' color='blue'/>
                 <Card.Content>
