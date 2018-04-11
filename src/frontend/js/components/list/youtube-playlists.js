@@ -25,7 +25,7 @@ class YoutubePlaylists extends React.Component {
         youtubePlaylistsGet();
     }
     render() {
-        const { models, orderBy, setFilterOrderBy } = this.props;
+        const { models, orderBy, setFilterOrderBy, youtubePlaylistsGet } = this.props;
 
         if (!models)
             return <Loader active />;
@@ -56,12 +56,15 @@ class YoutubePlaylists extends React.Component {
                         <Grid.Column width={ 2 } >
                             Order by:
                         </Grid.Column>
-                        <Grid.Column width={ 14 } >
+                        <Grid.Column width={ 6 } >
                             <Button.Group size='small' compact basic>
                                 <Button content='Title' active={ orderBy=='title' } onClick={ ()=> { setFilterOrderBy('title') } } />
                                 <Button content='Video Count' active={ orderBy=='videos' } onClick={ ()=> { setFilterOrderBy('videos') } } />
                                 <Button content='Date Published' active={ orderBy=='date_published' } onClick={ ()=> { setFilterOrderBy('date_published') } } />
                             </Button.Group>
+                        </Grid.Column>
+                        <Grid.Column width={ 6 } >
+                            <Button content='Refresh' onClick={ ()=> { youtubePlaylistsGet() } } color='blue' size='small' icon='refresh' labelPosition='right'/>
                         </Grid.Column>
                     </Grid>
                 </Segment>
