@@ -2,12 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import {
-    Loader
+    Loader,
+    Grid
 } from 'semantic-ui-react';
 
 
 import { UI_STATE } from 'constants/ui-state';
 import { youtubePlaylistsGet } from 'actions/youtube-playlists';
+
+import YoutubePlaylistCard from 'components/card/youtube-playlist-card';
 
 class YoutubePlaylists extends React.Component {
     componentWillMount() {
@@ -18,10 +21,16 @@ class YoutubePlaylists extends React.Component {
         const { models } = this.props;
         const nodes = models ? models.map(function(playlist, i){
             return (
-                <div key={ i }>{ playlist.snippet.title }</div>
+                <Grid.Column key={ i } >
+                    <YoutubePlaylistCard playlist={ playlist } />
+                </Grid.Column>
             );
         }) : <Loader active />;
-        return <div>{ nodes }</div>
+        return (
+            <Grid columns={ 8 }>
+                { nodes }
+            </Grid>
+        );
     }
 }
 
