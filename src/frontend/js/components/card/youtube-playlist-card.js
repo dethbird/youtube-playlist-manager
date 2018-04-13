@@ -26,7 +26,9 @@ class YoutubePlaylistCard extends React.Component {
             statusIcon = 'hide';
         return (
             <Card >
-                <Image src={ playlist.snippet.thumbnails.high.url } />
+                <a onClick={ () => { window.open(`https://www.youtube.com/playlist?list=${playlist.id}&disable_polymer=true`, '_blank') } }>
+                    <Image src={ playlist.snippet.thumbnails.high.url } />
+                </a>
                 <Card.Content>
                     <Card.Header>
                         { playlist.snippet.title }
@@ -36,23 +38,14 @@ class YoutubePlaylistCard extends React.Component {
                     </Card.Meta>
                     <Card.Meta>
                         <Button
-                            icon='list layout'
+                            icon={{
+                                name: 'list layout'
+                            }}
                             onClick={ () => { history.push(`/playlist/${playlist.id}`) } }
                             title='Details'
-                            size='mini'
                             basic
                             fluid
-                        />
-                        <Button
-                            icon={ {
-                                name: 'youtube square',
-                                color: 'red'
-                            } }
-                            onClick={ () => { window.open(`https://www.youtube.com/playlist?list=${playlist.id}&disable_polymer=true`, '_blank') } }
-                            title='Manage on Youtube'
-                            size='mini'
-                            basic
-                            fluid
+                            compact
                         />
                     </Card.Meta>
                 </Card.Content>

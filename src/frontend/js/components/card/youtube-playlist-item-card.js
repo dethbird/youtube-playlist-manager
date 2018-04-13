@@ -31,12 +31,15 @@ class YoutubePlaylistItemCard extends React.Component {
             };
         return (
             <Card >
-                <Image src={
-                        playlistItem.snippet.hasOwnProperty('thumbnails')
-                        ? playlistItem.snippet.thumbnails.high.url
-                        : 'https://blog.stylingandroid.com/wp-content/themes/lontano-pro/images/no-image-slide.png'
-                    }
-                />
+                <a onClick={ () => { window.open(`https://www.youtube.com/watch?v=${playlistItem.snippet.resourceId.videoId}`, '_blank') } }>
+                    <Image
+                        src={
+                            playlistItem.snippet.hasOwnProperty('thumbnails')
+                            ? playlistItem.snippet.thumbnails.high.url
+                            : 'https://blog.stylingandroid.com/wp-content/themes/lontano-pro/images/no-image-slide.png'
+                        }
+                    />
+                </a>
                 <Card.Content>
                     <Card.Header>
                         { playlistItem.snippet.title }
@@ -47,33 +50,33 @@ class YoutubePlaylistItemCard extends React.Component {
                     <Card.Meta>
                         <Button
                             icon={{
-                                name: 'exchange',
-                                color: 'purple'
+                                name: 'exchange'
                             }}
                             onClick={ () => { history.push(`/playlistItem/${playlistItem.id}`) } }
                             title='Move to playlist ...'
-                            size='mini'
                             basic
                             fluid
+                            compact
                         />
                         <Button
-                            icon='trash'
+                            icon={{
+                                name: 'copy'
+                            }}
+                            onClick={ () => { history.push(`/playlistItem/${playlistItem.id}`) } }
+                            title='Copy to playlist ...'
+                            basic
+                            fluid
+                            compact
+                        />
+                        <Button
+                            icon={{
+                                name: 'trash'
+                            }}
                             onClick={ () => { history.push(`/playlistItem/${playlistItem.id}`) } }
                             title='Delete'
-                            size='mini'
                             basic
                             fluid
-                        />
-                        <Button
-                            icon={ {
-                                name: 'youtube square',
-                                color: 'red'
-                            } }
-                            onClick={ () => { window.open(`https://www.youtube.com/watch?v=${playlistItem.snippet.resourceId.videoId}`, '_blank') } }
-                            title='Manage on Youtube'
-                            size='mini'
-                            basic
-                            fluid
+                            compact
                         />
                     </Card.Meta>
                 </Card.Content>
