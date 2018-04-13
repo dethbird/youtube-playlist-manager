@@ -7,6 +7,7 @@ import {
     Button,
     Loader,
     Grid,
+    Input,
     Segment
 } from 'semantic-ui-react';
 
@@ -14,7 +15,8 @@ import {
 import { UI_STATE } from 'constants/ui-state';
 import {
     youtubePlaylistsGet,
-    youtubePlaylistsOrder
+    youtubePlaylistsOrder,
+    youtubePlaylistsFilterString
 } from 'actions/youtube-playlists';
 
 import YoutubePlaylistCard from 'components/card/youtube-playlist-card';
@@ -25,17 +27,24 @@ class YoutubePlaylists extends React.Component {
         youtubePlaylistsGet();
     }
     render() {
-        const { models, orderBy, setFilterOrderBy, youtubePlaylistsGet, ui_state } = this.props;
+        const { models, orderBy, filterString, setFilterString, setFilterOrderBy, youtubePlaylistsGet, ui_state } = this.props;
 
         let modelsSorted = models;
+
+        if (filterString) {
+            modelsSorted = _.filter(modelsSorted, (playlist) => {
+                return playlist.snippet.title.toUpperCase().includes(filterString.toUpperCase())
+            });
+        }
+
         if (orderBy == 'date_published')
-            modelsSorted = _.sortBy(models, [(playlist) => { return playlist.snippet.publishedAt }]);
+            modelsSorted = _.sortBy(modelsSorted, [(playlist) => { return playlist.snippet.publishedAt }]);
 
         if (orderBy == 'title')
-            modelsSorted = _.sortBy(models, [(playlist) => { return playlist.snippet.title.toUpperCase() }]);
+            modelsSorted = _.sortBy(modelsSorted, [(playlist) => { return playlist.snippet.title.toUpperCase() }]);
 
         if (orderBy == 'videos')
-            modelsSorted = _.sortBy(models, [(playlist) => { return playlist.contentDetails.itemCount }]).reverse();
+            modelsSorted = _.sortBy(modelsSorted, [(playlist) => { return playlist.contentDetails.itemCount }]).reverse();
 
 
 
@@ -53,14 +62,23 @@ class YoutubePlaylists extends React.Component {
                         <Grid.Column width={ 1 } >
                             Order by:
                         </Grid.Column>
-                        <Grid.Column width={ 4 } >
+                        <Grid.Column width={ 3 } >
                             <Button.Group size='small' compact basic>
                                 <Button content='Title' active={ orderBy=='title' } onClick={ ()=> { setFilterOrderBy('title') } } />
                                 <Button content='Video Count' active={ orderBy=='videos' } onClick={ ()=> { setFilterOrderBy('videos') } } />
                                 <Button content='Date Published' active={ orderBy=='date_published' } onClick={ ()=> { setFilterOrderBy('date_published') } } />
                             </Button.Group>
                         </Grid.Column>
-                        <Grid.Column width={ 11 } textAlign='right'>
+                        <Grid.Column width={ 6 } >
+                            <Input
+                                icon='filter'
+                                placeholder='Filter...'
+                                fluid
+                                onChange={ (e, el) => { setFilterString(el.value) }}
+                                value={ filterString || '' }
+                            />
+                        </Grid.Column>
+                        <Grid.Column width={ 6 } textAlign='right'>
                             <Button content='Refresh' onClick={ ()=> { youtubePlaylistsGet() } } color='blue' size='small' icon='refresh' labelPosition='right'  loading={ui_state == UI_STATE.REQUESTING}/>
                         </Grid.Column>
                     </Grid>
@@ -76,12 +94,13 @@ class YoutubePlaylists extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    const { ui_state, errors, models, orderBy } = state.youtubePlaylistsReducer;
+    const { ui_state, errors, models, orderBy, filterString } = state.youtubePlaylistsReducer;
     return {
         ui_state: ui_state ? ui_state : UI_STATE.INITIALIZING,
         errors,
         models,
-        orderBy
+        orderBy,
+        filterString
     }
 }
 
@@ -92,6 +111,9 @@ function mapDispatchToProps(dispatch) {
         },
         setFilterOrderBy: (orderBy) => {
             dispatch(youtubePlaylistsOrder(orderBy));
+        },
+        setFilterString: (string) => {
+            dispatch(youtubePlaylistsFilterString(string));
         }
     }
   }

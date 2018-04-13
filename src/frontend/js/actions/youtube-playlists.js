@@ -42,6 +42,13 @@ export const youtubePlaylistsOrder = (orderBy) => {
     }
 }
 
+export const youtubePlaylistsFilterString = (filterString) => {
+    return {
+        type: YOUTUBE_PLAYLISTS.SET_FILTER_STRING,
+        filterString
+    }
+}
+
 export const driveReset = () => {
     return {
         type: YOUTUBE_PLAYLISTS.RESET

@@ -3,6 +3,7 @@ import { UI_STATE } from 'constants/ui-state';
 
 const youtubePlaylistsReducer = (state = {
     orderBy: 'title',
+    filterString: null,
     models: [],
     ui_state: UI_STATE.SUCCESS,
     errors: []
@@ -30,6 +31,11 @@ const youtubePlaylistsReducer = (state = {
             return {
                 ... state,
                 orderBy: action.orderBy
+            }
+        case YOUTUBE_PLAYLISTS.SET_FILTER_STRING:
+            return {
+                ... state,
+                filterString: action.filterString
             }
         default:
             return state;
