@@ -10,7 +10,6 @@ session_start();
 if (!isset($_SESSION['securityContext'])) {
     $_SESSION['securityContext'] = null;
 }
-$_SESSION['lastRequestUri'] = $_SERVER['REQUEST_URI'];
 
 set_include_path(implode(PATH_SEPARATOR, array(
     APPLICATION_PATH ,
@@ -77,28 +76,6 @@ $app->get('/', function ($request, $response){
         "configs" => $configs,
         'securityContext' => $securityContext,
         'lastRequestUri' => $lastRequestUri
-    ];
-
-    return $this['view']->render(
-        $response,
-        'pages/index.html.twig',
-        $templateVars
-    );
-
-});
-# post form
-$app->post('/', function ($request, $response){
-    $configs = $this['configs'];
-    $view = $this['view'];
-    $securityContext = isset($_SESSION['securityContext']) ? $_SESSION['securityContext'] : null;
-
-    $params = $request->getParsedBody();
-
-    var_dump($params); die();
-
-    $templateVars = [
-        "configs" => $configs,
-        'securityContext' => $securityContext
     ];
 
     return $this['view']->render(

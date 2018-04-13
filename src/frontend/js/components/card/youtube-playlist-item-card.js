@@ -15,24 +15,24 @@ import {
 } from 'semantic-ui-react';
 
 
-class YoutubePlaylistCard extends React.Component {
+class YoutubePlaylistItemCard extends React.Component {
     render() {
-        const { playlist, history } = this.props;
+        const { playlistItem, history } = this.props;
         let statusIcon = 'world';
 
-        if (playlist.status.privacyStatus=='private')
+        if (playlistItem.status.privacyStatus=='private')
             statusIcon = 'lock';
-        if (playlist.status.privacyStatus=='unlisted')
+        if (playlistItem.status.privacyStatus=='unlisted')
             statusIcon = 'hide';
         return (
             <Card >
-                <Image src={ playlist.snippet.thumbnails.high.url } />
+                <Image src={ playlistItem.snippet.thumbnails.high.url } />
                 <Card.Content>
                     <Card.Header>
-                        { playlist.snippet.title }
+                        { playlistItem.snippet.title }
                     </Card.Header>
                     <Card.Meta>
-                        { moment(playlist.snippet.publishedAt).format('MMMM Do YYYY') }
+                        { moment(playlistItem.snippet.publishedAt).format('MMMM Do YYYY') }
                     </Card.Meta>
                     <Card.Meta>
                         <Button
@@ -40,7 +40,7 @@ class YoutubePlaylistCard extends React.Component {
                                 name: 'youtube square',
                                 color: 'red'
                             } }
-                            onClick={ () => { window.open(`https://www.youtube.com/playlist?list=${playlist.id}&disable_polymer=true`, '_blank') } }
+                            onClick={ () => { window.open(`https://www.youtube.com/playlistItem?list=${playlistItem.id}&disable_polymer=true`, '_blank') } }
                             title='Manage on Youtube'
                             size='mini'
                             basic
@@ -48,7 +48,7 @@ class YoutubePlaylistCard extends React.Component {
                         />
                         <Button
                             icon='list layout'
-                            onClick={ () => { history.push(`/playlist/${playlist.id}`) } }
+                            onClick={ () => { history.push(`/playlistItem/${playlistItem.id}`) } }
                             title='Details'
                             size='mini'
                             basic
@@ -58,14 +58,14 @@ class YoutubePlaylistCard extends React.Component {
                 </Card.Content>
                 <br />
                 <Label icon={ statusIcon } attached='bottom left' size='mini'/>
-                <Label content={ playlist.contentDetails.itemCount } size='mini' attached='top right' color='blue'/>
+                <Label content={ playlistItem.contentDetails.itemCount } size='mini' attached='top right' color='blue'/>
             </Card>
         )
     }
 }
 
-YoutubePlaylistCard.propTypes = {
-    playlist: PropTypes.object
+YoutubePlaylistItemCard.propTypes = {
+    playlistItem: PropTypes.object
 };
 
-export default withRouter(YoutubePlaylistCard);
+export default withRouter(YoutubePlaylistItemCard);

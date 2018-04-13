@@ -13,12 +13,9 @@ class GoogleClient {
         $this->client = new Google_Client();
         $this->client->setApplicationName($applicationName);
         $this->client->setAuthConfigFile($authConfigFile);
-        // $this->client->addScope(Google_Service_Drive::DRIVE);
         $this->client->addScope('https://www.googleapis.com/auth/userinfo.profile');
         $this->client->addScope('https://www.googleapis.com/auth/youtube.force-ssl');
-        // $this->client->addScope(Google_Service_YouTube::YOUTUBE_READONLY);
-        // $this->client->setAccessType('offline');
-        $this->client->setApprovalPrompt('force');
+        // $this->client->setApprovalPrompt('force');
     }
 
     /**

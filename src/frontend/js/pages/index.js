@@ -14,12 +14,6 @@ import store from 'store/store';
 import Index from 'components/pages/index';
 import Playlist from 'components/pages/playlist';
 
-
-// if (lastRequestUri !== '/favicon.ico') {
-//     browserHistory.replace(lastRequestUri);
-// }
-
-
 render((
     <Provider store={store}>
         <Router>

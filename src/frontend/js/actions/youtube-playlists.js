@@ -48,9 +48,3 @@ export const youtubePlaylistsFilterString = (filterString) => {
         filterString
     }
 }
-
-export const driveReset = () => {
-    return {
-        type: YOUTUBE_PLAYLISTS.RESET
-    }
-}
