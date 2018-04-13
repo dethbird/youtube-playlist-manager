@@ -1,5 +1,5 @@
 <?php
-class HttpResponse {
+class Response {
 
     private $statusCode;
     private $body;

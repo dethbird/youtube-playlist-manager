@@ -238,6 +238,12 @@ class GoogleClient {
                 'maxResults' => 50
             ]
         ]);
+        if ($response->getStatusCode() != 200) {
+            return new Response(
+                $response->getStatusCode(),
+                ['message' => 'Google session has expired']
+            );
+        }
         $data = json_decode($response->getBody()->getContents());
         $totalResults = $data->pageInfo->totalResults;
         $nextPageToken = $data->nextPageToken;
@@ -259,8 +265,10 @@ class GoogleClient {
                 $nextPageToken = null;
             }
         }
-
-        return $items;
+        return new Response(
+            $response->getStatusCode(),
+            $items
+        );
     }
 
     public function getYoutubePlaylistItems($part, $options)

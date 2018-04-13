@@ -27,12 +27,11 @@ export const youtubePlaylistsGet = () =>
 
         dispatch(youtubePlaylistsRequestInit());
         request.get(`/service/google/youtube-playlists`)
-            .end(function (err, res) {
-                if (res.ok) {
-                    dispatch(youtubePlaylistsRequestSuccess(res.body));
-                } else {
-                    dispatch(youtubePlaylistsRequestError(res.body));
-                }
+            .then((res) => {
+                dispatch(youtubePlaylistsRequestSuccess(res.body));
+            })
+            .catch(() => {
+                document.location='/logout';
             });
     };
 
