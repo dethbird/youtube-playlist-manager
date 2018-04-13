@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router';
 
 import {
     Button,
@@ -10,7 +11,7 @@ import {
 
 class AppLayout extends React.Component {
     render() {
-        const { children } = this.props;
+        const { children, history } = this.props;
         if (!securityContext) {
             return (
                 <Segment textAlign='center' padded basic>
@@ -27,7 +28,8 @@ class AppLayout extends React.Component {
                             <span>{ securityContext.displayName }</span>
                         </Grid.Column>
                         <Grid.Column width={ 4 } textAlign='right'>
-                            <Button basic size='mini' content='Logout' onClick={()=>{ document.location='/logout' }}/>
+                            <Button basic icon='home' size='mini' onClick={()=>{ history.push('/') }} title='My Playlists' />
+                            <Button basic icon='shutdown' size='mini' onClick={()=>{ document.location='/logout' }} title='Logout' />
                         </Grid.Column>
                     </Grid>
                 </Segment>
@@ -39,4 +41,4 @@ class AppLayout extends React.Component {
     }
 }
 
-export default AppLayout;
+export default withRouter(AppLayout);
