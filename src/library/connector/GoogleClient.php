@@ -233,7 +233,7 @@ class GoogleClient {
         $httpClient = $this->client->authorize();
         $response = $httpClient->get('https://www.googleapis.com//youtube/v3/playlists', [
             'query' => [
-                'part' => 'id,snippet,contentDetails',
+                'part' => 'id,snippet,contentDetails,status',
                 'mine' => 'true',
                 'maxResults' => 50
             ]
@@ -245,7 +245,7 @@ class GoogleClient {
         while (count($items) < $totalResults) {
             $response = $httpClient->get('https://www.googleapis.com//youtube/v3/playlists', [
                 'query' => [
-                    'part' => 'id,snippet,contentDetails',
+                    'part' => 'id,snippet,contentDetails,status',
                     'mine' => 'true',
                     'maxResults' => 50,
                     'pageToken' => $nextPageToken

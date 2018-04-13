@@ -27,9 +27,6 @@ class YoutubePlaylists extends React.Component {
     render() {
         const { models, orderBy, setFilterOrderBy, youtubePlaylistsGet } = this.props;
 
-        if (!models)
-            return <Loader active />;
-
         let modelsSorted = models;
         if (orderBy == 'date_published')
             modelsSorted = _.sortBy(models, [(playlist) => { return playlist.snippet.publishedAt }]);
@@ -51,7 +48,7 @@ class YoutubePlaylists extends React.Component {
         });
         return (
             <div>
-                <Segment>
+                <Segment loading={!models.length}>
                     <Grid>
                         <Grid.Column width={ 2 } >
                             Order by:

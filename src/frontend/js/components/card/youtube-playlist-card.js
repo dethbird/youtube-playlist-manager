@@ -15,10 +15,14 @@ import {
 class YoutubePlaylistCard extends React.Component {
     render() {
         const { playlist } = this.props;
+        let statusIcon = 'world';
+        if (playlist.status.privacyStatus=='private')
+            statusIcon = 'lock';
+        if (playlist.status.privacyStatus=='unlisted')
+            statusIcon = 'hide';
         return (
             <Card onClick={ () => { window.open(`https://www.youtube.com/playlist?list=${playlist.id}&disable_polymer=true`, "_blank") } }>
                 <Image src={ playlist.snippet.thumbnails.high.url } />
-                <Label content={ playlist.contentDetails.itemCount } size='mini' attached='top right' color='blue'/>
                 <Card.Content>
                     <Card.Header>
                         { playlist.snippet.title }
@@ -27,6 +31,9 @@ class YoutubePlaylistCard extends React.Component {
                         { moment(playlist.snippet.publishedAt).format('MMMM Do YYYY') }
                     </Card.Meta>
                 </Card.Content>
+                <br />
+                <Label icon={ statusIcon } attached='bottom left' size='mini'/>
+                <Label content={ playlist.contentDetails.itemCount } size='mini' attached='top right' color='blue'/>
             </Card>
         )
     }

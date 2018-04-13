@@ -12,6 +12,7 @@ const youtubePlaylistsReducer = (state = {
         case YOUTUBE_PLAYLISTS.REQUEST:
             return {
                 ... state,
+                models: [],
                 ui_state: UI_STATE.REQUESTING
             }
         case YOUTUBE_PLAYLISTS.ERROR:
