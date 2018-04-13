@@ -9,6 +9,7 @@ import moment from 'moment';
 import {
     Button,
     Card,
+    Grid,
     Image,
     Label
 } from 'semantic-ui-react';
@@ -33,21 +34,25 @@ class YoutubePlaylistCard extends React.Component {
                     <Card.Meta>
                         { moment(playlist.snippet.publishedAt).format('MMMM Do YYYY') }
                     </Card.Meta>
-                    <Card.Meta textAlign='right'>
+                    <Card.Meta>
+                        <Button
+                            icon={ {
+                                name: 'youtube square',
+                                color: 'red'
+                            } }
+                            onClick={ () => { window.open(`https://www.youtube.com/playlist?list=${playlist.id}&disable_polymer=true`, "_blank") } }
+                            title='Manage on Youtube'
+                            size='mini'
+                            basic
+                            fluid
+                        />
                         <Button
                             icon='list layout'
                             onClick={ () => { history.push(`/playlist/${playlist.id}`) } }
-                            size='mini'
-                            color='youtube'
-                            basic
                             title='Details'
-                        />
-                        <Button
-                            icon='youtube square'
-                            onClick={ () => { window.open(`https://www.youtube.com/playlist?list=${playlist.id}&disable_polymer=true`, "_blank") } }
                             size='mini'
                             basic
-                            title='Manage on Youtube'
+                            fluid
                         />
                     </Card.Meta>
                 </Card.Content>
