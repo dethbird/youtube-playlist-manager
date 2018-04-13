@@ -18,15 +18,25 @@ import {
 class YoutubePlaylistItemCard extends React.Component {
     render() {
         const { playlistItem, history } = this.props;
-        let statusIcon = 'world';
 
+        let statusIcon = 'world';
         if (playlistItem.status.privacyStatus=='private')
             statusIcon = 'lock';
         if (playlistItem.status.privacyStatus=='unlisted')
             statusIcon = 'hide';
+        if (playlistItem.snippet.title.includes('Deleted video'))
+            statusIcon = {
+                name: 'remove circle',
+                color: 'red'
+            };
         return (
             <Card >
-                <Image src={ playlistItem.snippet.thumbnails.high.url } />
+                <Image src={
+                        playlistItem.snippet.hasOwnProperty('thumbnails')
+                        ? playlistItem.snippet.thumbnails.high.url
+                        : 'https://blog.stylingandroid.com/wp-content/themes/lontano-pro/images/no-image-slide.png'
+                    }
+                />
                 <Card.Content>
                     <Card.Header>
                         { playlistItem.snippet.title }
@@ -40,16 +50,24 @@ class YoutubePlaylistItemCard extends React.Component {
                                 name: 'youtube square',
                                 color: 'red'
                             } }
-                            onClick={ () => { window.open(`https://www.youtube.com/playlistItem?list=${playlistItem.id}&disable_polymer=true`, '_blank') } }
+                            onClick={ () => { window.open(`https://www.youtube.com/watch?v=${playlistItem.snippet.resourceId.videoId}`, '_blank') } }
                             title='Manage on Youtube'
                             size='mini'
                             basic
                             fluid
                         />
                         <Button
-                            icon='list layout'
+                            icon='trash'
                             onClick={ () => { history.push(`/playlistItem/${playlistItem.id}`) } }
-                            title='Details'
+                            title='Delete'
+                            size='mini'
+                            basic
+                            fluid
+                        />
+                        <Button
+                            icon='exchange'
+                            onClick={ () => { history.push(`/playlistItem/${playlistItem.id}`) } }
+                            title='Move'
                             size='mini'
                             basic
                             fluid
@@ -58,7 +76,6 @@ class YoutubePlaylistItemCard extends React.Component {
                 </Card.Content>
                 <br />
                 <Label icon={ statusIcon } attached='bottom left' size='mini'/>
-                <Label content={ playlistItem.contentDetails.itemCount } size='mini' attached='top right' color='blue'/>
             </Card>
         )
     }

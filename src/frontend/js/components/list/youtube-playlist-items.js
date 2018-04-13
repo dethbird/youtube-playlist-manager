@@ -37,9 +37,6 @@ class YoutubePlaylistItems extends React.Component {
             });
         }
 
-        if (orderBy == 'date_published')
-            modelsSorted = _.sortBy(modelsSorted, [(playlistItem) => { return playlistItem.snippet.publishedAt }]);
-
         if (orderBy == 'title')
             modelsSorted = _.sortBy(modelsSorted, [(playlistItem) => { return playlistItem.snippet.title.toUpperCase() }]);
 
@@ -65,7 +62,6 @@ class YoutubePlaylistItems extends React.Component {
                         <Grid.Column width={ 3 } >
                             <Button.Group size='small' compact basic>
                                 <Button content='Title' active={ orderBy=='title' } onClick={ ()=> { setFilterOrderBy('title') } } />
-                                <Button content='Video Count' active={ orderBy=='videos' } onClick={ ()=> { setFilterOrderBy('videos') } } />
                                 <Button content='Date Published' active={ orderBy=='date_published' } onClick={ ()=> { setFilterOrderBy('date_published') } } />
                             </Button.Group>
                         </Grid.Column>
