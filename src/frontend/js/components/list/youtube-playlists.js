@@ -25,7 +25,7 @@ class YoutubePlaylists extends React.Component {
         youtubePlaylistsGet();
     }
     render() {
-        const { models, orderBy, setFilterOrderBy, youtubePlaylistsGet } = this.props;
+        const { models, orderBy, setFilterOrderBy, youtubePlaylistsGet, ui_state } = this.props;
 
         let modelsSorted = models;
         if (orderBy == 'date_published')
@@ -48,26 +48,28 @@ class YoutubePlaylists extends React.Component {
         });
         return (
             <div>
-                <Segment loading={!models.length}>
+                <Segment>
                     <Grid>
-                        <Grid.Column width={ 2 } >
+                        <Grid.Column width={ 1 } >
                             Order by:
                         </Grid.Column>
-                        <Grid.Column width={ 6 } >
+                        <Grid.Column width={ 4 } >
                             <Button.Group size='small' compact basic>
                                 <Button content='Title' active={ orderBy=='title' } onClick={ ()=> { setFilterOrderBy('title') } } />
                                 <Button content='Video Count' active={ orderBy=='videos' } onClick={ ()=> { setFilterOrderBy('videos') } } />
                                 <Button content='Date Published' active={ orderBy=='date_published' } onClick={ ()=> { setFilterOrderBy('date_published') } } />
                             </Button.Group>
                         </Grid.Column>
-                        <Grid.Column width={ 6 } >
-                            <Button content='Refresh' onClick={ ()=> { youtubePlaylistsGet() } } color='blue' size='small' icon='refresh' labelPosition='right'/>
+                        <Grid.Column width={ 11 } textAlign='right'>
+                            <Button content='Refresh' onClick={ ()=> { youtubePlaylistsGet() } } color='blue' size='small' icon='refresh' labelPosition='right'  loading={ui_state == UI_STATE.REQUESTING}/>
                         </Grid.Column>
                     </Grid>
                 </Segment>
-                <Grid columns={ 8 }>
-                    { nodes }
-                </Grid>
+                <Segment loading={ui_state == UI_STATE.REQUESTING} basic>
+                    <Grid columns={ 8 }>
+                        { nodes }
+                    </Grid>
+                </Segment>
             </div>
         );
     }
