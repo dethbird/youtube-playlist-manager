@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import {
+    Button,
     Card,
     Image,
     Label
@@ -21,7 +22,7 @@ class YoutubePlaylistCard extends React.Component {
         if (playlist.status.privacyStatus=='unlisted')
             statusIcon = 'hide';
         return (
-            <Card onClick={ () => { window.open(`https://www.youtube.com/playlist?list=${playlist.id}&disable_polymer=true`, "_blank") } }>
+            <Card >
                 <Image src={ playlist.snippet.thumbnails.high.url } />
                 <Card.Content>
                     <Card.Header>
@@ -29,6 +30,16 @@ class YoutubePlaylistCard extends React.Component {
                     </Card.Header>
                     <Card.Meta>
                         { moment(playlist.snippet.publishedAt).format('MMMM Do YYYY') }
+                    </Card.Meta>
+                    <Card.Meta>
+                        <Button
+                            icon='youtube square'
+                            labelPosition='right'
+                            onClick={ () => { window.open(`https://www.youtube.com/playlist?list=${playlist.id}&disable_polymer=true`, "_blank") } }
+                            size='mini'
+                            color='youtube'
+                            basic content='Manage on Youtube'
+                        />
                     </Card.Meta>
                 </Card.Content>
                 <br />

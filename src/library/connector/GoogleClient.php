@@ -245,24 +245,26 @@ class GoogleClient {
             );
         }
         $data = json_decode($response->getBody()->getContents());
-        $totalResults = $data->pageInfo->totalResults;
-        $nextPageToken = $data->nextPageToken;
         $items = $data->items;
-        while (count($items) < $totalResults) {
-            $response = $httpClient->get('https://www.googleapis.com//youtube/v3/playlists', [
-                'query' => [
-                    'part' => 'id,snippet,contentDetails,status',
-                    'mine' => 'true',
-                    'maxResults' => 50,
-                    'pageToken' => $nextPageToken
-                ]
-            ]);
-            $data = json_decode($response->getBody()->getContents());
-            $items = array_merge($items, $data->items);
-            if (isset($data->nextPageToken)) {
-                $nextPageToken = $data->nextPageToken;
-            } else {
-                $nextPageToken = null;
+        if (isset($data->nextPageToken)) {
+            $totalResults = $data->pageInfo->totalResults;
+            $nextPageToken = $data->nextPageToken;
+            while (count($items) < $totalResults) {
+                $response = $httpClient->get('https://www.googleapis.com//youtube/v3/playlists', [
+                    'query' => [
+                        'part' => 'id,snippet,contentDetails,status',
+                        'mine' => 'true',
+                        'maxResults' => 50,
+                        'pageToken' => $nextPageToken
+                    ]
+                ]);
+                $data = json_decode($response->getBody()->getContents());
+                $items = array_merge($items, $data->items);
+                if (isset($data->nextPageToken)) {
+                    $nextPageToken = $data->nextPageToken;
+                } else {
+                    $nextPageToken = null;
+                }
             }
         }
         return new Response(
@@ -271,30 +273,52 @@ class GoogleClient {
         );
     }
 
-    public function getYoutubePlaylistItems($part, $options)
+    public function getYoutubePlaylistItems($playlistId)
     {
-        $youtube_service = new Google_Service_YouTube($this->client);
-        $result = $youtube_service->playlistItems->listPlaylistItems(
-            $part, $options);
-        $items = $result->getItems();
-        $pageInfo = $result->getPageInfo();
-        $nextPageToken = $result->nextPageToken;
-        $data = [];
 
-        while (count($data) < $pageInfo->totalResults) {
-            foreach($items as $video){
-                $data[] = $video->toSimpleObject();
-            }
-            if (count($data) < $pageInfo->totalResults) {
-                $options['pageToken'] = $nextPageToken;
-                $result = $youtube_service->playlistItems->listPlaylistItems(
-                    $part, $options);
-                $items = $result->getItems();
-                $nextPageToken = $result->nextPageToken;
+        $httpClient = $this->client->authorize();
+        $response = $httpClient->get('https://www.googleapis.com//youtube/v3/playlistItems', [
+            'query' => [
+                'playlistId' => $playlistId,
+                'part' => 'id,snippet,contentDetails,status',
+                'mine' => 'true',
+                'maxResults' => 50
+            ]
+        ]);
+        if ($response->getStatusCode() != 200) {
+            return new Response(
+                $response->getStatusCode(),
+                ['message' => 'Google session has expired']
+            );
+        }
+        $data = json_decode($response->getBody()->getContents());
+        $items = $data->items;
+        if (isset($data->nextPageToken)) {
+            $totalResults = $data->pageInfo->totalResults;
+            $nextPageToken = $data->nextPageToken;
+            while (count($items) < $totalResults) {
+                $response = $httpClient->get('https://www.googleapis.com//youtube/v3/playlistItems', [
+                    'query' => [
+                        'playlistId' => $playlistId,
+                        'part' => 'id,snippet,contentDetails,status',
+                        'mine' => 'true',
+                        'maxResults' => 50,
+                        'pageToken' => $nextPageToken
+                    ]
+                ]);
+                $data = json_decode($response->getBody()->getContents());
+                $items = array_merge($items, $data->items);
+                if (isset($data->nextPageToken)) {
+                    $nextPageToken = $data->nextPageToken;
+                } else {
+                    $nextPageToken = null;
+                }
             }
         }
-
-        return $data;
+        return new Response(
+            $response->getStatusCode(),
+            $items
+        );
     }
 
 }

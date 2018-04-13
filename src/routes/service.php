@@ -34,7 +34,6 @@ $app->group('/service', function(){
 
         });
 
-
         $this->get('/youtube-playlists', function($request, $response, $args){
             $googleData = new GoogleClient(
                  $this->configs['application']['name'],
@@ -42,6 +41,19 @@ $app->group('/service', function(){
             $googleData->setAccessToken($_SESSION['authToken']);
 
             $playlistsResponse = $googleData->getYoutubePlaylists();
+            return $response
+                ->withStatus($playlistsResponse->getStatusCode())
+                ->withJson($playlistsResponse->getBody());
+
+        });
+
+        $this->get('/youtube-playlist/{playlistId}', function($request, $response, $args){
+            $googleData = new GoogleClient(
+                 $this->configs['application']['name'],
+                APPLICATION_PATH . $this->configs['service']['google']['google_app_credentials_json']);
+            $googleData->setAccessToken($_SESSION['authToken']);
+
+            $playlistsResponse = $googleData->getYoutubePlaylistItems($args['playlistId']);
             return $response
                 ->withStatus($playlistsResponse->getStatusCode())
                 ->withJson($playlistsResponse->getBody());

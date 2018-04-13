@@ -12,6 +12,7 @@ import store from 'store/store';
 
 // External
 import Index from 'components/pages/index';
+import Playlist from 'components/pages/playlist';
 
 
 // if (lastRequestUri !== '/favicon.ico') {
@@ -24,6 +25,7 @@ render((
         <Router>
             <AppLayout>
                 <Route exact path="/" component={ Index } />
+                <Route exact path="/playlist/:playlistId" component={ Playlist } />
             </AppLayout>
         </Router>
     </Provider>
