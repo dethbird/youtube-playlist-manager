@@ -46,12 +46,12 @@ class YoutubePlaylistItemCard extends React.Component {
                     </Card.Meta>
                     <Card.Meta>
                         <Button
-                            icon={ {
-                                name: 'youtube square',
-                                color: 'red'
-                            } }
-                            onClick={ () => { window.open(`https://www.youtube.com/watch?v=${playlistItem.snippet.resourceId.videoId}`, '_blank') } }
-                            title='Manage on Youtube'
+                            icon={{
+                                name: 'exchange',
+                                color: 'purple'
+                            }}
+                            onClick={ () => { history.push(`/playlistItem/${playlistItem.id}`) } }
+                            title='Move to playlist ...'
                             size='mini'
                             basic
                             fluid
@@ -65,9 +65,12 @@ class YoutubePlaylistItemCard extends React.Component {
                             fluid
                         />
                         <Button
-                            icon='exchange'
-                            onClick={ () => { history.push(`/playlistItem/${playlistItem.id}`) } }
-                            title='Move'
+                            icon={ {
+                                name: 'youtube square',
+                                color: 'red'
+                            } }
+                            onClick={ () => { window.open(`https://www.youtube.com/watch?v=${playlistItem.snippet.resourceId.videoId}`, '_blank') } }
+                            title='Manage on Youtube'
                             size='mini'
                             basic
                             fluid

@@ -36,20 +36,20 @@ class YoutubePlaylistCard extends React.Component {
                     </Card.Meta>
                     <Card.Meta>
                         <Button
+                            icon='list layout'
+                            onClick={ () => { history.push(`/playlist/${playlist.id}`) } }
+                            title='Details'
+                            size='mini'
+                            basic
+                            fluid
+                        />
+                        <Button
                             icon={ {
                                 name: 'youtube square',
                                 color: 'red'
                             } }
                             onClick={ () => { window.open(`https://www.youtube.com/playlist?list=${playlist.id}&disable_polymer=true`, '_blank') } }
                             title='Manage on Youtube'
-                            size='mini'
-                            basic
-                            fluid
-                        />
-                        <Button
-                            icon='list layout'
-                            onClick={ () => { history.push(`/playlist/${playlist.id}`) } }
-                            title='Details'
                             size='mini'
                             basic
                             fluid
