@@ -1,6 +1,10 @@
 import request from 'superagent';
 import { YOUTUBE_PLAYLIST_ITEM } from 'constants/actions';
 
+import {
+    youtubeVideoReset
+} from 'actions/youtube-video';
+
 
 const youtubePlaylistItemRequestInit = () => {
     return {
@@ -40,8 +44,18 @@ export const youtubePlaylistItemAdd = (video, playlistId) =>
             })
             .then((res) => {
                 dispatch(youtubePlaylistItemRequestSuccess(res.body));
+                dispatch(youtubePlaylistItemAddModalSetOpen(false));
+                dispatch(youtubeVideoReset());
             })
             .catch((err) => {
                 youtubePlaylistItemRequestError(err);
             });
     };
+
+
+export const youtubePlaylistItemAddModalSetOpen = (modalOpen) => {
+    return {
+        type: YOUTUBE_PLAYLIST_ITEM.SET_MODAL_OPEN,
+        modalOpen
+    }
+}

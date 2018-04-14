@@ -19,11 +19,23 @@ import {
 import {
     youtubePlaylistItemAdd
 } from 'actions/youtube-playlist-item';
+import {
+    youtubePlaylistItemAddModalSetOpen
+} from 'actions/youtube-playlist-item';
+
 import { UI_STATE } from 'constants/ui-state';
 
 class AddPlaylistItemModal extends React.Component {
     render() {
-        const { ui_state, trigger, addYoutubeVideo, getYoutubeVideo, resetYoutubeVideo, model, playlistId } = this.props;
+        const {
+            ui_state,
+            addYoutubeVideo,
+            getYoutubeVideo,
+            closeModal,
+            model,
+            modalOpen,
+            playlistId
+        } = this.props;
 
         const renderContent = (model) => {
             if (!model)
@@ -44,9 +56,9 @@ class AddPlaylistItemModal extends React.Component {
 
         return (
             <Modal
-                trigger={ trigger }
+                open={ modalOpen }
                 closeIcon={{ name: 'window close', size: 'large'}}
-                onClose={ () => { resetYoutubeVideo() } }
+                onClose={ () => { closeModal() } }
             >
                 <Modal.Header>Enter a Youtube Video URL</Modal.Header>
                 <Modal.Content>
@@ -74,16 +86,17 @@ class AddPlaylistItemModal extends React.Component {
 }
 
 AddPlaylistItemModal.propTypes = {
-    trigger: PropTypes.object,
     playlistId: PropTypes.string
 };
 
 const mapStateToProps = (state) => {
+    const { modalOpen } = state.youtubePlaylistItemReducer;
     const { ui_state, errors, model } = state.youtubeVideoReducer;
     return {
         ui_state: ui_state ? ui_state : UI_STATE.INITIALIZING,
         errors,
-        model
+        model,
+        modalOpen
     }
 }
 
@@ -94,8 +107,9 @@ function mapDispatchToProps(dispatch) {
             if (url.query.hasOwnProperty('v'))
                 dispatch(youtubeVideoGet(url.query.v));
         },
-        resetYoutubeVideo: () => {
+        closeModal: () => {
             dispatch(youtubeVideoReset());
+            dispatch(youtubePlaylistItemAddModalSetOpen(false));
         },
         addYoutubeVideo: (video, playlistId) => {
             dispatch(youtubePlaylistItemAdd(video, playlistId));

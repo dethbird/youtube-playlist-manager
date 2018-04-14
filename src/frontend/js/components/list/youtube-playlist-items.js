@@ -20,6 +20,9 @@ import {
 import {
     youtubePlaylistGet
 } from 'actions/youtube-playlist';
+import {
+    youtubePlaylistItemAddModalSetOpen
+} from 'actions/youtube-playlist-item';
 
 import YoutubePlaylistItemCard from 'components/card/youtube-playlist-item-card';
 import AddPlaylistItemModal from 'components/modal/add-playlist-item-modal';
@@ -31,7 +34,18 @@ class YoutubePlaylistItems extends React.Component {
         youtubePlaylistGet(playlistId);
     }
     render() {
-        const { playlistId, playlist, models, orderBy, filterString, setFilterString, setFilterOrderBy, youtubePlaylistItemsGet, ui_state } = this.props;
+        const {
+            playlistId,
+            playlist,
+            models,
+            orderBy,
+            filterString,
+            setFilterString,
+            setFilterOrderBy,
+            youtubePlaylistItemsGet,
+            youtubePlaylistItemAddModalSetOpen,
+            ui_state
+        } = this.props;
         let modelsSorted = models;
 
         if (filterString) {
@@ -80,9 +94,9 @@ class YoutubePlaylistItems extends React.Component {
                         </Grid.Column>
                         <Grid.Column width={ 6 } textAlign='right'>
                             <AddPlaylistItemModal
-                                trigger={ <Button icon='add' color='green' title="Add new video to this playlist" /> }
                                 playlistId={ playlistId }
                             />
+                            <Button icon='add' color='green' title="Add new video to this playlist" onClick={ () => { youtubePlaylistItemAddModalSetOpen(true) } } />
                             <Button content='Refresh' onClick={ ()=> { youtubePlaylistItemsGet(playlistId) } } color='blue' size='small' icon='refresh' labelPosition='right'  loading={ui_state == UI_STATE.REQUESTING}/>
                         </Grid.Column>
                     </Grid>
@@ -115,6 +129,9 @@ function mapDispatchToProps(dispatch) {
     return {
         youtubePlaylistItemsGet: (playlistId) => {
             dispatch(youtubePlaylistItemsGet(playlistId));
+        },
+        youtubePlaylistItemAddModalSetOpen: (open) => {
+            dispatch(youtubePlaylistItemAddModalSetOpen(open));
         },
         youtubePlaylistGet: (playlistId) => {
             dispatch(youtubePlaylistGet(playlistId));

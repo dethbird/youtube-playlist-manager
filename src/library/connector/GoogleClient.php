@@ -314,7 +314,7 @@ class GoogleClient {
                 ['message' => 'Google session has expired']
             );
         }
-        $data = json_decode($response->getBody()->getContents())->items[0];
+        $data = json_decode($response->getBody()->getContents());
         return new Response(
             $response->getStatusCode(),
             $data
