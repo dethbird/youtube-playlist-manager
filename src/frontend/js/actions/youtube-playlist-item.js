@@ -5,6 +5,10 @@ import {
     youtubeVideoReset
 } from 'actions/youtube-video';
 import {
+    youtubePlaylistsSetOperatee
+} from 'actions/youtube-playlists';
+
+import {
     youtubePlaylistItemsGet
 } from 'actions/youtube-playlist-items';
 
@@ -72,9 +76,14 @@ export const youtubePlaylistItemDelete = (deletePlaylistItem) =>
 export const youtubePlaylistItemCopy = (copyPlaylistItem, playlistId) =>
     dispatch => {
         dispatch(youtubePlaylistItemRequestInit());
-        request.post(`/service/google/youtube-playlist-item/${copyPlaylistItem.id}/copy-to/${playlistId}`)
+        request.put(`/service/google/youtube-playlist-item/copy-to-playlist`)
+            .send({
+                resourceId: copyPlaylistItem.snippet.resourceId,
+                playlistId
+            })
             .then((res) => {
                 dispatch(youtubePlaylistItemCopyModalSetOpen(false));
+                dispatch(youtubePlaylistsSetOperatee(undefined));
                 dispatch(youtubePlaylistItemsGet(copyPlaylistItem.snippet.playlistId));
             })
             .catch((err) => {

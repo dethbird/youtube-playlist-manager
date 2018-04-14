@@ -6,7 +6,8 @@ const youtubePlaylistsReducer = (state = {
     filterString: null,
     models: [],
     ui_state: UI_STATE.SUCCESS,
-    errors: []
+    errors: [],
+    operateePlaylist: undefined
 }, action) => {
 
     switch (action.type) {
@@ -36,6 +37,11 @@ const youtubePlaylistsReducer = (state = {
             return {
                 ... state,
                 filterString: action.filterString
+            }
+        case YOUTUBE_PLAYLISTS.SET_OPERATEE:
+            return {
+                ... state,
+                operateePlaylist: action.operateePlaylist
             }
         default:
             return state;

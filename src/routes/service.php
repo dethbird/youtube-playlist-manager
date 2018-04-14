@@ -87,6 +87,20 @@ $app->group('/service', function(){
 
         });
 
+        $this->put('/youtube-playlist-item/copy-to-playlist', function($request, $response){
+            $googleData = new GoogleClient(
+                 $this->configs['application']['name'],
+                APPLICATION_PATH . $this->configs['service']['google']['google_app_credentials_json']);
+            $googleData->setAccessToken($_SESSION['authToken']);
+            $body = $request->getParsedBody();
+
+            $resp = $googleData->addYoutubePlaylistItem($body['playlistId'], $body['resourceId']);
+            return $response
+                ->withStatus($resp->getStatusCode())
+                ->withJson($resp->getBody());
+
+        });
+
         $this->delete('/youtube-playlist-item/{playlistItemId}', function($request, $response, $args){
             $googleData = new GoogleClient(
                  $this->configs['application']['name'],

@@ -3,16 +3,19 @@ import { connect } from 'react-redux';
 
 import {
     Button,
+    Item,
     Modal
 } from 'semantic-ui-react';
 
 import {
-    youtubePlaylistItemCopy
-} from 'actions/youtube-playlist-item';
-import {
+    youtubePlaylistItemCopy,
     youtubePlaylistItemCopyModalSetOpen
 } from 'actions/youtube-playlist-item';
+import {
+    youtubePlaylistsSetOperatee
+} from 'actions/youtube-playlists';
 
+import PlaylistSelect from 'components/form/select/playlist-select';
 import { UI_STATE } from 'constants/ui-state';
 
 class CopyPlaylistItemModal extends React.Component {
@@ -22,7 +25,8 @@ class CopyPlaylistItemModal extends React.Component {
             copyModalOpen,
             copyPlaylistItem,
             copyYoutubePlaylistItem,
-            closeModal
+            closeModal,
+            operateePlaylist
         } = this.props;
 
         return (
@@ -30,22 +34,33 @@ class CopyPlaylistItemModal extends React.Component {
                 open={ copyModalOpen }
                 closeIcon={{ name: 'window close', size: 'large'}}
                 onClose={ () => { closeModal() } }
+                closeOnDimmerClick={ false }
             >
                 <Modal.Header>Select a playlist to copy to</Modal.Header>
                 <Modal.Content>
-                    farts
+                    {
+                        operateePlaylist
+                        ? (
+                            <Item>
+                                <Item.Image rounded size='small' src={operateePlaylist.snippet.thumbnails.high.url} />
+                                <Item.Content>
+                                    <Item.Header>{ operateePlaylist.snippet.title }</Item.Header>
+                                </Item.Content>
+                            </Item>
+                        )
+                        : <PlaylistSelect />}
                 </Modal.Content>
                 <Modal.Actions>
                     <Button
                         icon='copy'
                         labelPosition='right'
                         content='Copy to Playlist'
-                        disabled={ true }
+                        disabled={ !operateePlaylist }
                         loading={ ui_state == UI_STATE.REQUESTING }
                         color='green'
                         onClick={ () => {
-                            if (false) {
-                                copyYoutubePlaylistItem(copyPlaylistItem)
+                            if (operateePlaylist) {
+                                copyYoutubePlaylistItem(copyPlaylistItem, operateePlaylist.id)
                             }
                         } }
                     />
@@ -58,10 +73,12 @@ class CopyPlaylistItemModal extends React.Component {
 
 const mapStateToProps = (state) => {
     const { copyModalOpen, copyPlaylistItem, ui_state } = state.youtubePlaylistItemReducer;
+    const { operateePlaylist } = state.youtubePlaylistsReducer;
     return {
         ui_state: ui_state ? ui_state : UI_STATE.INITIALIZING,
         copyModalOpen,
-        copyPlaylistItem
+        copyPlaylistItem,
+        operateePlaylist
     }
 }
 
@@ -69,10 +86,10 @@ function mapDispatchToProps(dispatch) {
     return {
         closeModal: () => {
             dispatch(youtubePlaylistItemCopyModalSetOpen(false));
+            dispatch(youtubePlaylistsSetOperatee(undefined));
         },
-        copyYoutubePlaylistItem: (copyPlaylistItem) => {
-            console.log(copyPlaylistItem)
-            // dispatch(youtubePlaylistItemCopy( copyPlaylistItem ));
+        copyYoutubePlaylistItem: (copyPlaylistItem, copyToPlaylistId) => {
+            dispatch(youtubePlaylistItemCopy( copyPlaylistItem, copyToPlaylistId ));
         },
     }
   }

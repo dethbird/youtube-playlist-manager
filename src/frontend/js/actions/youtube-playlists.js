@@ -48,3 +48,10 @@ export const youtubePlaylistsFilterString = (filterString) => {
         filterString
     }
 }
+
+export const youtubePlaylistsSetOperatee = (operateePlaylist) => {
+    return {
+        type: YOUTUBE_PLAYLISTS.SET_OPERATEE,
+        operateePlaylist
+    }
+}
