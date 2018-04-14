@@ -31,7 +31,7 @@ class YoutubePlaylistItemCard extends React.Component {
             };
         return (
             <Card >
-                <a onClick={ () => { window.open(`https://www.youtube.com/watch?v=${playlistItem.snippet.resourceId.videoId}`, '_blank') } }>
+                <a onClick={ () => { window.open(`https://www.youtube.com/watch?v=${playlistItem.snippet.resourceId.videoId}`, '_blank') } } title="Watch on Youtube">
                     <Image
                         src={
                             playlistItem.snippet.hasOwnProperty('thumbnails')

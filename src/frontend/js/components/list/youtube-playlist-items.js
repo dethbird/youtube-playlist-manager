@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import * as _ from 'lodash';
 
 import {
@@ -23,6 +22,7 @@ import {
 } from 'actions/youtube-playlist';
 
 import YoutubePlaylistItemCard from 'components/card/youtube-playlist-item-card';
+import AddPlaylistItemModal from 'components/modal/add-playlist-item-modal';
 
 class YoutubePlaylistItems extends React.Component {
     componentWillMount() {
@@ -32,7 +32,6 @@ class YoutubePlaylistItems extends React.Component {
     }
     render() {
         const { playlistId, playlist, models, orderBy, filterString, setFilterString, setFilterOrderBy, youtubePlaylistItemsGet, ui_state } = this.props;
-        console.log(playlist);
         let modelsSorted = models;
 
         if (filterString) {
@@ -80,6 +79,10 @@ class YoutubePlaylistItems extends React.Component {
                             />
                         </Grid.Column>
                         <Grid.Column width={ 6 } textAlign='right'>
+                            <AddPlaylistItemModal
+                                trigger={ <Button icon='add' color='green' title="Add new video to this playlist" /> }
+                                playlistId={ playlistId }
+                            />
                             <Button content='Refresh' onClick={ ()=> { youtubePlaylistItemsGet(playlistId) } } color='blue' size='small' icon='refresh' labelPosition='right'  loading={ui_state == UI_STATE.REQUESTING}/>
                         </Grid.Column>
                     </Grid>
@@ -90,6 +93,7 @@ class YoutubePlaylistItems extends React.Component {
                     </Grid>
                 </Segment>
             </div>
+
         );
     }
 }

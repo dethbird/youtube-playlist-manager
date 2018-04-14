@@ -293,6 +293,34 @@ class GoogleClient {
         );
     }
 
+    public function addYoutubePlaylistItem($playlistId, $resourceId)
+    {
+
+        $httpClient = $this->client->authorize();
+        $response = $httpClient->post('https://www.googleapis.com//youtube/v3/playlistItems', [
+            'query' => [
+                'part' => 'snippet'
+            ],
+            'json' => [
+                'snippet' => [
+                    'playlistId' => $playlistId,
+                    'resourceId' => $resourceId
+                ]
+            ]
+        ]);
+        if ($response->getStatusCode() != 200) {
+            return new Response(
+                $response->getStatusCode(),
+                ['message' => 'Google session has expired']
+            );
+        }
+        $data = json_decode($response->getBody()->getContents())->items[0];
+        return new Response(
+            $response->getStatusCode(),
+            $data
+        );
+    }
+
     public function getYoutubePlaylistItems($playlistId)
     {
 
@@ -338,6 +366,29 @@ class GoogleClient {
         return new Response(
             $response->getStatusCode(),
             $items
+        );
+    }
+
+    public function getYoutubeVideo($videoId)
+    {
+
+        $httpClient = $this->client->authorize();
+        $response = $httpClient->get('https://www.googleapis.com//youtube/v3/videos', [
+            'query' => [
+                'id' => $videoId,
+                'part' => 'id,snippet,contentDetails,status,player'
+            ]
+        ]);
+        $data = json_decode($response->getBody()->getContents());
+        if ($data->pageInfo->totalResults == 0) {
+            return new Response(
+                404,
+                ['message' => 'Video not found']
+            );
+        }
+        return new Response(
+            $response->getStatusCode(),
+            $data->items[0]
         );
     }
 

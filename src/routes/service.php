@@ -72,5 +72,35 @@ $app->group('/service', function(){
                 ->withJson($playlistsResponse->getBody());
 
         });
+
+        $this->post('/youtube-playlist-item', function($request, $response){
+            $googleData = new GoogleClient(
+                 $this->configs['application']['name'],
+                APPLICATION_PATH . $this->configs['service']['google']['google_app_credentials_json']);
+            $googleData->setAccessToken($_SESSION['authToken']);
+
+            // $queryParams = $request->getQueryParams();
+            $body = $request->getParsedBody();
+            // var_dump($body); die();
+
+            $playlistsResponse = $googleData->addYoutubePlaylistItem($body['snippet']['playlistId'], $body['snippet']['resourceId']);
+            return $response
+                ->withStatus($playlistsResponse->getStatusCode())
+                ->withJson($playlistsResponse->getBody());
+
+        });
+
+        $this->get('/youtube-video/{videoId}', function($request, $response, $args){
+            $googleData = new GoogleClient(
+                 $this->configs['application']['name'],
+                APPLICATION_PATH . $this->configs['service']['google']['google_app_credentials_json']);
+            $googleData->setAccessToken($_SESSION['authToken']);
+
+            $playlistsResponse = $googleData->getYoutubeVideo($args['videoId']);
+            return $response
+                ->withStatus($playlistsResponse->getStatusCode())
+                ->withJson($playlistsResponse->getBody());
+
+        });
     });
 });
