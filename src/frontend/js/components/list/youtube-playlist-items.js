@@ -22,11 +22,13 @@ import {
 } from 'actions/youtube-playlist';
 import {
     youtubePlaylistItemAddModalSetOpen,
-    youtubePlaylistItemDeleteConfirmSetOpen
+    youtubePlaylistItemDeleteConfirmSetOpen,
+    youtubePlaylistItemCopyModalSetOpen
 } from 'actions/youtube-playlist-item';
 
 import YoutubePlaylistItemCard from 'components/card/youtube-playlist-item-card';
 import AddPlaylistItemModal from 'components/modal/add-playlist-item-modal';
+import CopyPlaylistItemModal from 'components/modal/copy-playlist-item-modal';
 import DeletePlaylistItemConfirm from 'components/confirm/delete-playlist-item-confirm';
 
 class YoutubePlaylistItems extends React.Component {
@@ -47,6 +49,7 @@ class YoutubePlaylistItems extends React.Component {
             youtubePlaylistItemsGet,
             youtubePlaylistItemAddModalSetOpen,
             handleClickDeletePlaylistItem,
+            handleClickCopyPlaylistItem,
             ui_state
         } = this.props;
         let modelsSorted = models;
@@ -71,6 +74,7 @@ class YoutubePlaylistItems extends React.Component {
                     <YoutubePlaylistItemCard
                         playlistItem={ playlistItem }
                         onClickDelete={ handleClickDeletePlaylistItem }
+                        onClickCopy={ handleClickCopyPlaylistItem }
                     />
                 </Grid.Column>
             );
@@ -113,6 +117,7 @@ class YoutubePlaylistItems extends React.Component {
                 <AddPlaylistItemModal
                     playlistId={ playlistId }
                 />
+                <CopyPlaylistItemModal />
             </div>
 
         );
@@ -151,6 +156,9 @@ function mapDispatchToProps(dispatch) {
         },
         handleClickDeletePlaylistItem: (playlistItem) => {
             dispatch(youtubePlaylistItemDeleteConfirmSetOpen(true, playlistItem));
+        },
+        handleClickCopyPlaylistItem: (playlistItem) => {
+            dispatch(youtubePlaylistItemCopyModalSetOpen(true, playlistItem));
         }
     }
   }

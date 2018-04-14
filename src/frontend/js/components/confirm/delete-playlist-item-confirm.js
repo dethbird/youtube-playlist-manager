@@ -50,7 +50,7 @@ function mapDispatchToProps(dispatch) {
         cancelConfirm: () => {
             dispatch(youtubePlaylistItemDeleteConfirmSetOpen(false));
         },
-        deleteYoutubePlaylistItem: (deletePlaylistItem) => {
+        deleteYoutubePlaylistItem: (deletePlaylistItem ) => {
             dispatch(youtubePlaylistItemDelete( deletePlaylistItem ));
         },
     }

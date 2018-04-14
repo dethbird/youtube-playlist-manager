@@ -69,6 +69,19 @@ export const youtubePlaylistItemDelete = (deletePlaylistItem) =>
             });
     };
 
+export const youtubePlaylistItemCopy = (copyPlaylistItem, playlistId) =>
+    dispatch => {
+        dispatch(youtubePlaylistItemRequestInit());
+        request.post(`/service/google/youtube-playlist-item/${copyPlaylistItem.id}/copy-to/${playlistId}`)
+            .then((res) => {
+                dispatch(youtubePlaylistItemCopyModalSetOpen(false));
+                dispatch(youtubePlaylistItemsGet(copyPlaylistItem.snippet.playlistId));
+            })
+            .catch((err) => {
+                youtubePlaylistItemRequestError(err);
+            });
+    };
+
 export const youtubePlaylistItemAddModalSetOpen = (modalOpen) => {
     return {
         type: YOUTUBE_PLAYLIST_ITEM.SET_MODAL_OPEN,
@@ -81,5 +94,12 @@ export const youtubePlaylistItemDeleteConfirmSetOpen = (deleteConfirmOpen, delet
         type: YOUTUBE_PLAYLIST_ITEM.SET_DELETE_CONFIRM_OPEN,
         deleteConfirmOpen,
         deletePlaylistItem
+    }
+}
+export const youtubePlaylistItemCopyModalSetOpen = (copyModalOpen, copyPlaylistItem = undefined) => {
+    return {
+        type: YOUTUBE_PLAYLIST_ITEM.SET_COPY_MODAL_OPEN,
+        copyModalOpen,
+        copyPlaylistItem
     }
 }
