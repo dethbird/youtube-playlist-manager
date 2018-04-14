@@ -24,8 +24,23 @@ class AppLayout extends React.Component {
                 <Segment basic>
                     <Grid>
                         <Grid.Column width={ 12 } textAlign='left'>
-                            <Button basic icon='home' size='mini' onClick={()=>{ history.push('/') }} title='My Playlists' />
-                            <Button basic icon='shutdown' size='mini' onClick={()=>{ document.location='/logout' }} title='Logout' />
+                            <Button
+                                basic
+                                icon={{
+                                    name: 'home',
+                                    color: 'blue'
+                                }}
+                                onClick={()=>{ history.push('/') }}
+                                title='My Playlists'
+                            />
+                            <Button
+                                basic
+                                icon={{
+                                    name: 'shutdown'
+                                }}
+                                onClick={()=>{ document.location='/logout' }}
+                                title='Logout'
+                            />
                             <Image src={ securityContext.image.url } avatar />
                             <span>{ securityContext.displayName }</span>
                         </Grid.Column>

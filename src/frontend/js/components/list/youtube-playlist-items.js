@@ -19,7 +19,8 @@ import {
     youtubePlaylistItemsFilterString
 } from 'actions/youtube-playlist-items';
 import {
-    youtubePlaylistGet
+    youtubePlaylistGet,
+    youtubePlaylistReset
 } from 'actions/youtube-playlist';
 import {
     youtubePlaylistItemAddModalSetOpen,
@@ -39,6 +40,10 @@ class YoutubePlaylistItems extends React.Component {
         const { playlistId, youtubePlaylistItemsGet, youtubePlaylistGet } = this.props;
         youtubePlaylistItemsGet(playlistId);
         youtubePlaylistGet(playlistId);
+    }
+    componentWillUnMount() {
+        const { youtubePlaylistReset } = this.props;
+        youtubePlaylistReset();
     }
     render() {
         const {
@@ -87,26 +92,32 @@ class YoutubePlaylistItems extends React.Component {
         return (
             <div>
                 <Segment>
-                    <Grid>
-                        <Grid.Column width={ 2 }>
-                            { playlist ? <Image src={ playlist.snippet.thumbnails.high.url } size='medium' rounded /> : '' }
-                        </Grid.Column>
-                        <Grid.Column width={ 6 }>
-                            <h2>{ playlist ? playlist.snippet.title : ''}</h2>
-                        </Grid.Column>
-                        <Grid.Column width={ 8 } textAlign='right'>
-                            <Button
-                                title='Manage on Youtube'
-                                onClick={ () => { window.open(`https://www.youtube.com/playlist?list=${ playlist ? playlist.id : null }&disable_polymer=true`, '_blank') } }
-                                icon={{
-                                    name: 'youtube square',
-                                    size: 'large',
-                                    color: 'red'
-                                }}
-                                basic
-                            />
-                        </Grid.Column>
-                    </Grid>
+                        {
+                            playlist
+                            ? (
+                                <Grid>
+                                    <Grid.Column width={ 2 }>
+                                        <Image src={ playlist.snippet.thumbnails.high.url } size='medium' rounded />
+                                    </Grid.Column>
+                                    <Grid.Column width={ 6 }>
+                                        <h2>{ playlist.snippet.title }</h2>
+                                    </Grid.Column>
+                                    <Grid.Column width={ 8 } textAlign='right'>
+                                        <Button
+                                            title='Manage on Youtube'
+                                            onClick={ () => { window.open(`https://www.youtube.com/playlist?list=${playlist.id}&disable_polymer=true`, '_blank') } }
+                                            icon={{
+                                                name: 'youtube square',
+                                                size: 'large',
+                                                color: 'red'
+                                            }}
+                                            basic
+                                        />
+                                    </Grid.Column>
+                                </Grid>
+                            )
+                            : <Loader active />
+                        }
 
                     <Grid>
                         <Grid.Column width={ 1 } >
@@ -173,6 +184,9 @@ function mapDispatchToProps(dispatch) {
         },
         youtubePlaylistGet: (playlistId) => {
             dispatch(youtubePlaylistGet(playlistId));
+        },
+        youtubePlaylistReset: () => {
+            dispatch(youtubePlaylistReset());
         },
         setFilterOrderBy: (orderBy) => {
             dispatch(youtubePlaylistItemsOrder(orderBy));

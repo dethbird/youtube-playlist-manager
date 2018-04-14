@@ -25,6 +25,12 @@ const youtubePlaylistReducer = (state = {
                 ui_state: UI_STATE.SUCCESS,
                 model: action.model
             }
+        case YOUTUBE_PLAYLIST.RESET:
+            return {
+                model: undefined,
+                ui_state: UI_STATE.SUCCESS,
+                errors: []
+            }
         default:
             return state;
     }

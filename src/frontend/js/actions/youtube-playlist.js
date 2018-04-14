@@ -35,3 +35,8 @@ export const youtubePlaylistGet = (playlistId) =>
             });
     };
 
+export const youtubePlaylistReset = () => {
+    return {
+        type: YOUTUBE_PLAYLIST.RESET
+    }
+}
