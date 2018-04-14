@@ -4,6 +4,9 @@ import { YOUTUBE_PLAYLIST_ITEM } from 'constants/actions';
 import {
     youtubeVideoReset
 } from 'actions/youtube-video';
+import {
+    youtubePlaylistItemsGet
+} from 'actions/youtube-playlist-items';
 
 
 const youtubePlaylistItemRequestInit = () => {
@@ -46,6 +49,7 @@ export const youtubePlaylistItemAdd = (video, playlistId) =>
                 dispatch(youtubePlaylistItemRequestSuccess(res.body));
                 dispatch(youtubePlaylistItemAddModalSetOpen(false));
                 dispatch(youtubeVideoReset());
+                dispatch(youtubePlaylistItemsGet(playlistId));
             })
             .catch((err) => {
                 youtubePlaylistItemRequestError(err);
