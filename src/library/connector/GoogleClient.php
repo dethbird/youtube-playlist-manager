@@ -224,6 +224,29 @@ class GoogleClient {
         return $data;
     }
 
+    public function getYoutubePlaylist($playlistId)
+    {
+
+        $httpClient = $this->client->authorize();
+        $response = $httpClient->get('https://www.googleapis.com//youtube/v3/playlists', [
+            'query' => [
+                'id' => $playlistId,
+                'part' => 'id,snippet,contentDetails,status'
+            ]
+        ]);
+        if ($response->getStatusCode() != 200) {
+            return new Response(
+                $response->getStatusCode(),
+                ['message' => 'Google session has expired']
+            );
+        }
+        $data = json_decode($response->getBody()->getContents())->items[0];
+        return new Response(
+            $response->getStatusCode(),
+            $data
+        );
+    }
+
     public function getYoutubePlaylists()
     {
 

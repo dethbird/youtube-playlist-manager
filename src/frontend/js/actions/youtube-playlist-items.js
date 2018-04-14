@@ -25,12 +25,12 @@ const youtubePlaylistItemsRequestError = (errors) => {
 export const youtubePlaylistItemsGet = (playlistId) =>
     dispatch => {
         dispatch(youtubePlaylistItemsRequestInit());
-        request.get(`/service/google/youtube-playlist/${playlistId}`)
+        request.get(`/service/google/youtube-playlist-items/${playlistId}`)
             .then((res) => {
                 dispatch(youtubePlaylistItemsRequestSuccess(res.body));
             })
             .catch(() => {
-                // document.location='/logout';
+                document.location='/logout';
             });
     };
 

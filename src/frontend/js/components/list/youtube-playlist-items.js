@@ -18,17 +18,21 @@ import {
     youtubePlaylistItemsOrder,
     youtubePlaylistItemsFilterString
 } from 'actions/youtube-playlist-items';
+import {
+    youtubePlaylistGet
+} from 'actions/youtube-playlist';
 
 import YoutubePlaylistItemCard from 'components/card/youtube-playlist-item-card';
 
 class YoutubePlaylistItems extends React.Component {
     componentWillMount() {
-        const { playlistId, youtubePlaylistItemsGet } = this.props;
+        const { playlistId, youtubePlaylistItemsGet, youtubePlaylistGet } = this.props;
         youtubePlaylistItemsGet(playlistId);
+        youtubePlaylistGet(playlistId);
     }
     render() {
-        const { playlistId, models, orderBy, filterString, setFilterString, setFilterOrderBy, youtubePlaylistItemsGet, ui_state } = this.props;
-
+        const { playlistId, playlist, models, orderBy, filterString, setFilterString, setFilterOrderBy, youtubePlaylistItemsGet, ui_state } = this.props;
+        console.log(playlist);
         let modelsSorted = models;
 
         if (filterString) {
@@ -55,6 +59,7 @@ class YoutubePlaylistItems extends React.Component {
         return (
             <div>
                 <Segment>
+                    <h2>{ playlist ? playlist.snippet.title : ''}</h2>
                     <Grid>
                         <Grid.Column width={ 1 } >
                             Order by:
@@ -91,12 +96,14 @@ class YoutubePlaylistItems extends React.Component {
 
 const mapStateToProps = (state) => {
     const { ui_state, errors, models, orderBy, filterString } = state.youtubePlaylistItemsReducer;
+    const { model } = state.youtubePlaylistReducer;
     return {
         ui_state: ui_state ? ui_state : UI_STATE.INITIALIZING,
         errors,
         models,
         orderBy,
-        filterString
+        filterString,
+        playlist: model
     }
 }
 
@@ -104,6 +111,9 @@ function mapDispatchToProps(dispatch) {
     return {
         youtubePlaylistItemsGet: (playlistId) => {
             dispatch(youtubePlaylistItemsGet(playlistId));
+        },
+        youtubePlaylistGet: (playlistId) => {
+            dispatch(youtubePlaylistGet(playlistId));
         },
         setFilterOrderBy: (orderBy) => {
             dispatch(youtubePlaylistItemsOrder(orderBy));
