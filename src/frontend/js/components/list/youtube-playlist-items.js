@@ -7,6 +7,7 @@ import {
     Loader,
     Grid,
     Input,
+    Image,
     Segment
 } from 'semantic-ui-react';
 
@@ -82,7 +83,27 @@ class YoutubePlaylistItems extends React.Component {
         return (
             <div>
                 <Segment>
-                    <h2>{ playlist ? playlist.snippet.title : ''}</h2>
+                    <Grid>
+                        <Grid.Column width={ 2 }>
+                            { playlist ? <Image src={ playlist.snippet.thumbnails.high.url } size='medium' rounded /> : '' }
+                        </Grid.Column>
+                        <Grid.Column width={ 6 }>
+                            <h2>{ playlist ? playlist.snippet.title : ''}</h2>
+                        </Grid.Column>
+                        <Grid.Column width={ 8 } textAlign='right'>
+                            <Button
+                                title='Manage on Youtube'
+                                onClick={ () => { window.open(`https://www.youtube.com/playlist?list=${ playlist ? playlist.id : null }&disable_polymer=true`, '_blank') } }
+                                icon={{
+                                    name: 'youtube square',
+                                    size: 'large',
+                                    color: 'red'
+                                }}
+                                basic
+                            />
+                        </Grid.Column>
+                    </Grid>
+
                     <Grid>
                         <Grid.Column width={ 1 } >
                             Order by:

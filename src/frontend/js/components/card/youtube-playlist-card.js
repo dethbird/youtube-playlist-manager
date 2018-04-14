@@ -26,7 +26,7 @@ class YoutubePlaylistCard extends React.Component {
             statusIcon = 'hide';
         return (
             <Card >
-                <a onClick={ () => { window.open(`https://www.youtube.com/playlist?list=${playlist.id}&disable_polymer=true`, '_blank') } } title="View on Youtube">
+                <a onClick={ () => { window.open(`https://www.youtube.com/playlist?list=${playlist.id}&disable_polymer=true`, '_blank') } } title="Manage on Youtube">
                     <Image src={ playlist.snippet.thumbnails.high.url } />
                 </a>
                 <Card.Content>

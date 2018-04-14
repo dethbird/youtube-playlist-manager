@@ -65,6 +65,7 @@ export const youtubePlaylistItemDelete = (deletePlaylistItem) =>
         dispatch(youtubePlaylistItemRequestInit());
         request.delete(`/service/google/youtube-playlist-item/${deletePlaylistItem.id}`)
             .then((res) => {
+                dispatch(youtubePlaylistItemRequestSuccess(res.body));
                 dispatch(youtubePlaylistItemDeleteConfirmSetOpen(false));
                 dispatch(youtubePlaylistItemsGet(deletePlaylistItem.snippet.playlistId));
             })
@@ -82,9 +83,10 @@ export const youtubePlaylistItemCopy = (copyPlaylistItem, playlistId) =>
                 playlistId
             })
             .then((res) => {
+                dispatch(youtubePlaylistItemRequestSuccess(res.body));
+                dispatch(youtubePlaylistItemsGet(copyPlaylistItem.snippet.playlistId));
                 dispatch(youtubePlaylistItemCopyModalSetOpen(false));
                 dispatch(youtubePlaylistsSetOperatee(undefined));
-                dispatch(youtubePlaylistItemsGet(copyPlaylistItem.snippet.playlistId));
             })
             .catch((err) => {
                 youtubePlaylistItemRequestError(err);
