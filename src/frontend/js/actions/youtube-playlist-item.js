@@ -56,10 +56,30 @@ export const youtubePlaylistItemAdd = (video, playlistId) =>
             });
     };
 
+export const youtubePlaylistItemDelete = (deletePlaylistItem) =>
+    dispatch => {
+        dispatch(youtubePlaylistItemRequestInit());
+        request.delete(`/service/google/youtube-playlist-item/${deletePlaylistItem.id}`)
+            .then((res) => {
+                dispatch(youtubePlaylistItemDeleteConfirmSetOpen(false));
+                dispatch(youtubePlaylistItemsGet(deletePlaylistItem.snippet.playlistId));
+            })
+            .catch((err) => {
+                youtubePlaylistItemRequestError(err);
+            });
+    };
 
 export const youtubePlaylistItemAddModalSetOpen = (modalOpen) => {
     return {
         type: YOUTUBE_PLAYLIST_ITEM.SET_MODAL_OPEN,
         modalOpen
+    }
+}
+
+export const youtubePlaylistItemDeleteConfirmSetOpen = (deleteConfirmOpen, deletePlaylistItem = undefined) => {
+    return {
+        type: YOUTUBE_PLAYLIST_ITEM.SET_DELETE_CONFIRM_OPEN,
+        deleteConfirmOpen,
+        deletePlaylistItem
     }
 }

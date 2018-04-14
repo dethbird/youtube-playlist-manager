@@ -21,11 +21,13 @@ import {
     youtubePlaylistGet
 } from 'actions/youtube-playlist';
 import {
-    youtubePlaylistItemAddModalSetOpen
+    youtubePlaylistItemAddModalSetOpen,
+    youtubePlaylistItemDeleteConfirmSetOpen
 } from 'actions/youtube-playlist-item';
 
 import YoutubePlaylistItemCard from 'components/card/youtube-playlist-item-card';
 import AddPlaylistItemModal from 'components/modal/add-playlist-item-modal';
+import DeletePlaylistItemConfirm from 'components/confirm/delete-playlist-item-confirm';
 
 class YoutubePlaylistItems extends React.Component {
     componentWillMount() {
@@ -44,6 +46,7 @@ class YoutubePlaylistItems extends React.Component {
             setFilterOrderBy,
             youtubePlaylistItemsGet,
             youtubePlaylistItemAddModalSetOpen,
+            handleClickDeletePlaylistItem,
             ui_state
         } = this.props;
         let modelsSorted = models;
@@ -65,7 +68,10 @@ class YoutubePlaylistItems extends React.Component {
         const nodes = modelsSorted.map(function(playlistItem, i){
             return (
                 <Grid.Column key={ i } >
-                    <YoutubePlaylistItemCard playlistItem={ playlistItem } />
+                    <YoutubePlaylistItemCard
+                        playlistItem={ playlistItem }
+                        onClickDelete={ handleClickDeletePlaylistItem }
+                    />
                 </Grid.Column>
             );
         });
@@ -93,9 +99,6 @@ class YoutubePlaylistItems extends React.Component {
                             />
                         </Grid.Column>
                         <Grid.Column width={ 6 } textAlign='right'>
-                            <AddPlaylistItemModal
-                                playlistId={ playlistId }
-                            />
                             <Button icon='add' color='green' title="Add new video to this playlist" onClick={ () => { youtubePlaylistItemAddModalSetOpen(true) } } />
                             <Button content='Refresh' onClick={ ()=> { youtubePlaylistItemsGet(playlistId) } } color='blue' size='small' icon='refresh' labelPosition='right'  loading={ui_state == UI_STATE.REQUESTING}/>
                         </Grid.Column>
@@ -106,6 +109,10 @@ class YoutubePlaylistItems extends React.Component {
                         { nodes }
                     </Grid>
                 </Segment>
+                <DeletePlaylistItemConfirm />
+                <AddPlaylistItemModal
+                    playlistId={ playlistId }
+                />
             </div>
 
         );
@@ -141,6 +148,9 @@ function mapDispatchToProps(dispatch) {
         },
         setFilterString: (string) => {
             dispatch(youtubePlaylistItemsFilterString(string));
+        },
+        handleClickDeletePlaylistItem: (playlistItem) => {
+            dispatch(youtubePlaylistItemDeleteConfirmSetOpen(true, playlistItem));
         }
     }
   }

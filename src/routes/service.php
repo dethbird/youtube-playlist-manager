@@ -78,15 +78,26 @@ $app->group('/service', function(){
                  $this->configs['application']['name'],
                 APPLICATION_PATH . $this->configs['service']['google']['google_app_credentials_json']);
             $googleData->setAccessToken($_SESSION['authToken']);
-
-            // $queryParams = $request->getQueryParams();
             $body = $request->getParsedBody();
-            // var_dump($body); die();
 
-            $playlistsResponse = $googleData->addYoutubePlaylistItem($body['snippet']['playlistId'], $body['snippet']['resourceId']);
+            $resp = $googleData->addYoutubePlaylistItem($body['snippet']['playlistId'], $body['snippet']['resourceId']);
             return $response
-                ->withStatus($playlistsResponse->getStatusCode())
-                ->withJson($playlistsResponse->getBody());
+                ->withStatus($resp->getStatusCode())
+                ->withJson($resp->getBody());
+
+        });
+
+        $this->delete('/youtube-playlist-item/{playlistItemId}', function($request, $response, $args){
+            $googleData = new GoogleClient(
+                 $this->configs['application']['name'],
+                APPLICATION_PATH . $this->configs['service']['google']['google_app_credentials_json']);
+            $googleData->setAccessToken($_SESSION['authToken']);
+            $body = $request->getParsedBody();
+
+            $resp = $googleData->deleteYoutubePlaylistItem($args['playlistItemId']);
+            return $response
+                ->withStatus($resp->getStatusCode())
+                ->withJson($resp->getBody());
 
         });
 

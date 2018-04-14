@@ -321,6 +321,28 @@ class GoogleClient {
         );
     }
 
+    public function deleteYoutubePlaylistItem($playlistItemId)
+    {
+
+        $httpClient = $this->client->authorize();
+        $response = $httpClient->delete('https://www.googleapis.com//youtube/v3/playlistItems', [
+            'query' => [
+                'id' => $playlistItemId
+            ]
+        ]);
+        if ($response->getStatusCode() != 200) {
+            return new Response(
+                $response->getStatusCode(),
+                ['message' => 'Error deleting playlist item']
+            );
+        }
+        $data = json_decode($response->getBody()->getContents());
+        return new Response(
+            $response->getStatusCode(),
+            $data
+        );
+    }
+
     public function getYoutubePlaylistItems($playlistId)
     {
 

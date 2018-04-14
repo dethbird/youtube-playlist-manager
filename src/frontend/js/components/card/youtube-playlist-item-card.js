@@ -17,7 +17,7 @@ import {
 
 class YoutubePlaylistItemCard extends React.Component {
     render() {
-        const { playlistItem, history } = this.props;
+        const { playlistItem, history, onClickDelete } = this.props;
 
         let statusIcon = 'world';
         if (playlistItem.status.privacyStatus=='private')
@@ -72,7 +72,7 @@ class YoutubePlaylistItemCard extends React.Component {
                             icon={{
                                 name: 'trash'
                             }}
-                            onClick={ () => { history.push(`/playlistItem/${playlistItem.id}`) } }
+                            onClick={ () => { onClickDelete(playlistItem) } }
                             title='Delete'
                             basic
                             fluid
@@ -88,7 +88,8 @@ class YoutubePlaylistItemCard extends React.Component {
 }
 
 YoutubePlaylistItemCard.propTypes = {
-    playlistItem: PropTypes.object
+    playlistItem: PropTypes.object,
+    onClickDelete: PropTypes.func
 };
 
 export default withRouter(YoutubePlaylistItemCard);

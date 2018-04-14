@@ -5,7 +5,9 @@ const youtubePlaylistItemReducer = (state = {
     model: undefined,
     ui_state: UI_STATE.SUCCESS,
     errors: [],
-    modalOpen: false
+    modalOpen: false,
+    deleteConfirmOpen: false,
+    deletePlaylistItem: undefined
 }, action) => {
 
     switch (action.type) {
@@ -30,6 +32,12 @@ const youtubePlaylistItemReducer = (state = {
             return {
                 ... state,
                 modalOpen: action.modalOpen
+            }
+        case YOUTUBE_PLAYLIST_ITEM.SET_DELETE_CONFIRM_OPEN:
+            return {
+                ... state,
+                deleteConfirmOpen: action.deleteConfirmOpen,
+                deletePlaylistItem: action.deletePlaylistItem
             }
         default:
             return state;
