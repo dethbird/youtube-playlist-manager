@@ -93,6 +93,26 @@ export const youtubePlaylistItemCopy = (copyPlaylistItem, playlistId) =>
             });
     };
 
+export const youtubePlaylistItemMove = (movePlaylistItem, playlistId) =>
+    dispatch => {
+        dispatch(youtubePlaylistItemRequestInit());
+        request.put(`/service/google/youtube-playlist-item/move-to-playlist`)
+            .send({
+                resourceId: movePlaylistItem.snippet.resourceId,
+                playlistId,
+                playlistItemId: movePlaylistItem.id
+            })
+            .then((res) => {
+                dispatch(youtubePlaylistItemRequestSuccess(res.body));
+                dispatch(youtubePlaylistItemsGet(movePlaylistItem.snippet.playlistId));
+                dispatch(youtubePlaylistItemMoveModalSetOpen(false));
+                dispatch(youtubePlaylistsSetOperatee(undefined));
+            })
+            .catch((err) => {
+                youtubePlaylistItemRequestError(err);
+            });
+    };
+
 export const youtubePlaylistItemAddModalSetOpen = (modalOpen) => {
     return {
         type: YOUTUBE_PLAYLIST_ITEM.SET_MODAL_OPEN,
@@ -112,5 +132,13 @@ export const youtubePlaylistItemCopyModalSetOpen = (copyModalOpen, copyPlaylistI
         type: YOUTUBE_PLAYLIST_ITEM.SET_COPY_MODAL_OPEN,
         copyModalOpen,
         copyPlaylistItem
+    }
+}
+
+export const youtubePlaylistItemMoveModalSetOpen = (moveModalOpen, movePlaylistItem = undefined) => {
+    return {
+        type: YOUTUBE_PLAYLIST_ITEM.SET_MOVE_MODAL_OPEN,
+        moveModalOpen,
+        movePlaylistItem
     }
 }

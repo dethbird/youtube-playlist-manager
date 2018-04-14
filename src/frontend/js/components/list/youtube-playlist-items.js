@@ -24,12 +24,14 @@ import {
 import {
     youtubePlaylistItemAddModalSetOpen,
     youtubePlaylistItemDeleteConfirmSetOpen,
-    youtubePlaylistItemCopyModalSetOpen
+    youtubePlaylistItemCopyModalSetOpen,
+    youtubePlaylistItemMoveModalSetOpen
 } from 'actions/youtube-playlist-item';
 
 import YoutubePlaylistItemCard from 'components/card/youtube-playlist-item-card';
 import AddPlaylistItemModal from 'components/modal/add-playlist-item-modal';
 import CopyPlaylistItemModal from 'components/modal/copy-playlist-item-modal';
+import MovePlaylistItemModal from 'components/modal/move-playlist-item-modal';
 import DeletePlaylistItemConfirm from 'components/confirm/delete-playlist-item-confirm';
 
 class YoutubePlaylistItems extends React.Component {
@@ -51,6 +53,7 @@ class YoutubePlaylistItems extends React.Component {
             youtubePlaylistItemAddModalSetOpen,
             handleClickDeletePlaylistItem,
             handleClickCopyPlaylistItem,
+            handleClickMovePlaylistItem,
             ui_state
         } = this.props;
         let modelsSorted = models;
@@ -76,6 +79,7 @@ class YoutubePlaylistItems extends React.Component {
                         playlistItem={ playlistItem }
                         onClickDelete={ handleClickDeletePlaylistItem }
                         onClickCopy={ handleClickCopyPlaylistItem }
+                        onClickMove={ handleClickMovePlaylistItem }
                     />
                 </Grid.Column>
             );
@@ -139,6 +143,7 @@ class YoutubePlaylistItems extends React.Component {
                     playlistId={ playlistId }
                 />
                 <CopyPlaylistItemModal />
+                <MovePlaylistItemModal />
             </div>
 
         );
@@ -180,6 +185,9 @@ function mapDispatchToProps(dispatch) {
         },
         handleClickCopyPlaylistItem: (playlistItem) => {
             dispatch(youtubePlaylistItemCopyModalSetOpen(true, playlistItem));
+        },
+        handleClickMovePlaylistItem: (playlistItem) => {
+            dispatch(youtubePlaylistItemMoveModalSetOpen(true, playlistItem));
         }
     }
   }

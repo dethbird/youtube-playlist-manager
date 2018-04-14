@@ -101,6 +101,21 @@ $app->group('/service', function(){
 
         });
 
+        $this->put('/youtube-playlist-item/move-to-playlist', function($request, $response){
+            $googleData = new GoogleClient(
+                 $this->configs['application']['name'],
+                APPLICATION_PATH . $this->configs['service']['google']['google_app_credentials_json']);
+            $googleData->setAccessToken($_SESSION['authToken']);
+            $body = $request->getParsedBody();
+
+            $resp1 = $googleData->addYoutubePlaylistItem($body['playlistId'], $body['resourceId']);
+            $resp2 = $googleData->deleteYoutubePlaylistItem($body['playlistItemId']);
+            return $response
+                ->withStatus($resp2->getStatusCode())
+                ->withJson($resp2->getBody());
+
+        });
+
         $this->delete('/youtube-playlist-item/{playlistItemId}', function($request, $response, $args){
             $googleData = new GoogleClient(
                  $this->configs['application']['name'],

@@ -17,7 +17,7 @@ import {
 
 class YoutubePlaylistItemCard extends React.Component {
     render() {
-        const { playlistItem, history, onClickDelete, onClickCopy } = this.props;
+        const { playlistItem, history, onClickDelete, onClickCopy, onClickMove } = this.props;
 
         let statusIcon = 'world';
         if (playlistItem.status.privacyStatus=='private')
@@ -52,7 +52,7 @@ class YoutubePlaylistItemCard extends React.Component {
                             icon={{
                                 name: 'exchange'
                             }}
-                            onClick={ () => { history.push(`/playlistItem/${playlistItem.id}`) } }
+                            onClick={ () => { onClickMove(playlistItem) } }
                             title='Move to playlist ...'
                             basic
                             fluid
@@ -90,7 +90,8 @@ class YoutubePlaylistItemCard extends React.Component {
 YoutubePlaylistItemCard.propTypes = {
     playlistItem: PropTypes.object,
     onClickDelete: PropTypes.func,
-    onClickCopy: PropTypes.func
+    onClickCopy: PropTypes.func,
+    onClickMove: PropTypes.func
 };
 
 export default withRouter(YoutubePlaylistItemCard);
